@@ -1,4 +1,4 @@
-class MovableObject {
+class MovableObject extends DrawableObject {
     posX;
     posY;
     img;
@@ -13,6 +13,9 @@ class MovableObject {
     // Jump and fall down
     speedY = 0;
     acceleration = 2;
+
+    energy = 100;  // Gets reduced when a collision occures
+    lastHit = 0;
 
     // Offset for Collisions
     offset = {
@@ -43,10 +46,9 @@ class MovableObject {
     playAnimation(imgArray) {
         let i = this.currentImage % imgArray.length;  // Aber currentImage läuft doch dann irgendwann über... auch wenn 9 Billionen lange dauert
         let path = imgArray[i];
-        this.img.src = this.moveWalking[path];
+        this.img.src = this.imageCache[path];
         this.currentImage++;
-        // if (this.currentImage == this.IMAGES_WALKING.length) this.currentImage = 0;
-
+        // if (this.currentImage == this.IMAGES_WALKING.length) this.currentImage = 0
     }
 
     draw(ctx) {
@@ -67,22 +69,30 @@ class MovableObject {
 
     // Bessere Formel zur Kollisionsberechnung (Genauer)
     isColliding(movObj) {
-        // return this.posX + this.width > movObj.posX &&
-        //     this.posY + this.height > movObj.posY &&
-        //     this.posX < movObj.posX &&
-        //     this.posY < movObj.posY + movObj.height;
-
         return (
             this.posX + this.width - this.offset.right > movObj.posX + movObj.offset.left &&
             this.posY + this.height - this.offset.bottom > movObj.posY + movObj.offset.top &&
             this.posX + this.offset.left < movObj.posX + movObj.width - movObj.offset.right &&
             this.posY + this.offset.top < movObj.posY + movObj.height - movObj.offset.bottom
-        )
+        );
+    }
 
-        // return (this.posX + this.width) >= movObj.posX && this.posX <= (movObj.posX + movObj.width) &&
-        //     (this.posY + this.offset.top + this.height) >= movObj.posY &&
-        //     (this.posY + this.offset.top) <= (movObj.posY + movObj.height) &&
-        //     obj.onCollisionCourse; // Optional: hiermit könnten wir schauen, ob ein Objekt sich in die richtige Richtung bewegt. Nur dann kollidieren wir. Nützlich bei Gegenständen, auf denen man stehen kann.
+    hit() {
+        this.energy -= 2;
+        if (this.energy < 0) {
+            this.energy = 0;
+        } else {
+            this.lastHit = new Date().getTime();
+        };
+    }
+
+    isHurt() {
+        let timePassed = new Date().getTime() - this.lastHit; // in milliseconds
+        return timePassed < 1000; // last hit is more than one and a half seconds old (5000 milliseconds)
+    }
+
+    isDead() {
+        return this.energy <= 0;
     }
 
     applyGravity() {
@@ -99,7 +109,7 @@ class MovableObject {
     }
 
     jump() {
-        this.speedY = 25;
+        this.speedY = 30;
     }
 
     moveLeft() {

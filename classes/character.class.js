@@ -17,28 +17,14 @@ class Character extends MovableObject {
     moveJumping = {};
     moveIdling = {};
     moveSleeping = {};
+    moveHurting = {};
+    moveDying = {};
     // Wie lange ist Pepe schon im Wartemodus?
     idlingCounter = 0;
+    // Ist Pepe gestorben?
+    hasDied = false;
+    dyingCounter = 0;
 
-    IMAGES_WALKING = [
-        'img/2_character_pepe/2_walk/W-21.png',
-        'img/2_character_pepe/2_walk/W-22.png',
-        'img/2_character_pepe/2_walk/W-23.png',
-        'img/2_character_pepe/2_walk/W-24.png',
-        'img/2_character_pepe/2_walk/W-25.png',
-        'img/2_character_pepe/2_walk/W-26.png'
-    ];
-    IMAGES_JUMPING = [
-        'img/2_character_pepe/3_jump/J-31.png',
-        'img/2_character_pepe/3_jump/J-32.png',
-        'img/2_character_pepe/3_jump/J-33.png',
-        'img/2_character_pepe/3_jump/J-34.png',
-        'img/2_character_pepe/3_jump/J-35.png',
-        'img/2_character_pepe/3_jump/J-36.png',
-        'img/2_character_pepe/3_jump/J-37.png',
-        'img/2_character_pepe/3_jump/J-38.png',
-        'img/2_character_pepe/3_jump/J-39.png'
-    ];
     IMAGES_IDLING = [
         'img/2_character_pepe/1_idle/idle/I-1.png',
         'img/2_character_pepe/1_idle/idle/I-2.png',
@@ -62,30 +48,58 @@ class Character extends MovableObject {
         'img/2_character_pepe/1_idle/long_idle/I-18.png',
         'img/2_character_pepe/1_idle/long_idle/I-19.png',
         'img/2_character_pepe/1_idle/long_idle/I-20.png'
+    ];
+    IMAGES_WALKING = [
+        'img/2_character_pepe/2_walk/W-21.png',
+        'img/2_character_pepe/2_walk/W-22.png',
+        'img/2_character_pepe/2_walk/W-23.png',
+        'img/2_character_pepe/2_walk/W-24.png',
+        'img/2_character_pepe/2_walk/W-25.png',
+        'img/2_character_pepe/2_walk/W-26.png'
+    ];
+    IMAGES_JUMPING = [
+        'img/2_character_pepe/3_jump/J-31.png',
+        'img/2_character_pepe/3_jump/J-32.png',
+        'img/2_character_pepe/3_jump/J-33.png',
+        'img/2_character_pepe/3_jump/J-34.png',
+        'img/2_character_pepe/3_jump/J-35.png',
+        'img/2_character_pepe/3_jump/J-36.png',
+        'img/2_character_pepe/3_jump/J-37.png',
+        'img/2_character_pepe/3_jump/J-38.png',
+        'img/2_character_pepe/3_jump/J-39.png'
+    ];
+    IMAGES_HURTING = [
+        'img/2_character_pepe/4_hurt/H-41.png',
+        'img/2_character_pepe/4_hurt/H-42.png',
+        'img/2_character_pepe/4_hurt/H-43.png'
     ]
+    IMAGES_DYING = [
+        'img/2_character_pepe/5_dead/D-51.png',
+        'img/2_character_pepe/5_dead/D-52.png',
+        'img/2_character_pepe/5_dead/D-53.png',
+        'img/2_character_pepe/5_dead/D-54.png',
+        'img/2_character_pepe/5_dead/D-55.png',
+        'img/2_character_pepe/5_dead/D-56.png',
+        'img/2_character_pepe/5_dead/D-57.png'
+    ];
 
     world;  // mittels world.keyboard kann ich dann auf Tasten reagieren
 
     walkingSound = new Audio('audio/walking.mp3');
     jumpingSound = new Audio('audio/jump.mp3');
-
+    dyingSound = new Audio('audio/dying-pepe.mp3');
 
     constructor() {
-        super().loadImage('img/2_character_pepe/1_idle/idle/I-1.png');
+        super().loadImage('img/2_character_pepe/1_idle/idle/I-1.png');  // starting image: Pepe is standing there
 
-        // Bilder laden : Gehen
-        this.loadImages(this.IMAGES_WALKING);
-        this.moveWalking = this.imageCache;
-        // Bilder laden : Springen
-        this.loadImages(this.IMAGES_JUMPING);
-        this.moveJumping = this.imageCache;
-        // Bilder laden : Warten / Stehen
-        this.loadImages(this.IMAGES_IDLING);
-        this.moveIdling = this.imageCache;
-        // Bilder laden : Schlafen
-        this.loadImages(this.IMAGES_SLEEPING);
-        this.moveSleeping = this.imageCache;
-this.applyGravity();
+        this.loadImages(this.IMAGES_WALKING);  // Load images : Walking
+        this.loadImages(this.IMAGES_JUMPING);  // Load images : Jumping
+        this.loadImages(this.IMAGES_IDLING);   // Load images : Waiting / Idling
+        this.loadImages(this.IMAGES_SLEEPING); // Load images : Sleeping
+        this.loadImages(this.IMAGES_HURTING);  // Load images : Hurting
+        this.loadImages(this.IMAGES_DYING);    // Load images : Dying
+
+        this.applyGravity();
         this.animate();
     }
 
@@ -109,7 +123,7 @@ this.applyGravity();
             };
             // console.log('speedY: ' + this.speedY);
             if (this.world.keyboard.SPACE && !this.isAboveGround()) {
-                // Y-Koordinate änddern (springen)
+                // Y-Koordinate ändern (springen)
                 this.jump();
                 this.jumpingSound.play();
             }
@@ -117,25 +131,27 @@ this.applyGravity();
         }, 75);
 
         setInterval(() => {
-
             if (this.isAboveGround()) {
-                this.playAnimation(this.IMAGES_JUMPING);
+                this.playAnimation(this.IMAGES_JUMPING);  // show jumping animation
+                this.idlingCounter = 0;
+            } else if (this.isDead()) {
+                if (!this.hasDied) {  // show dying animation, but only once
+                    this.playAnimation(this.IMAGES_DYING);
+                    this.dyingSound.play();
+                    this.dyingCounter++;
+                    if (this.dyingCounter >= 7) this.hasDied = true;
+                }
+            } else if (this.isHurt()) {
+                this.playAnimation(this.IMAGES_HURTING); // show hurting animation
+            } else if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
+                this.playAnimation(this.IMAGES_WALKING); // show walking animation
                 this.idlingCounter = 0;
             } else {
-                if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
-                    // Lauf-Animation
-                    this.playAnimation(this.IMAGES_WALKING);
-                    this.idlingCounter = 0;
-                } else {
-                    // console.log(this.idlingCounter);
-                    this.idlingCounter++;
-                    this.idlingCounter <= 120 ? 
-                        this.playAnimation(this.IMAGES_IDLING) : 
-                        this.playAnimation(this.IMAGES_SLEEPING);
-                }
+                this.idlingCounter++;  // show idling or sleeping animation
+                this.idlingCounter <= 120 ? this.playAnimation(this.IMAGES_IDLING) : this.playAnimation(this.IMAGES_SLEEPING);
             }
+
         }, 125)
-        
     }
 
 }
