@@ -88,6 +88,7 @@ class Character extends MovableObject {
     walkingSound = new Audio('audio/walking.mp3');
     jumpingSound = new Audio('audio/jump.mp3');
     dyingSound = new Audio('audio/dying-pepe.mp3');
+    hurtingSound = new Audio('audio/pepe-hurt.mp3');
 
     constructor() {
         super().loadImage('img/2_character_pepe/1_idle/idle/I-1.png');  // starting image: Pepe is standing there
@@ -143,6 +144,7 @@ class Character extends MovableObject {
                 }
             } else if (this.isHurt()) {
                 this.playAnimation(this.IMAGES_HURTING); // show hurting animation
+                this.hurtingSound.play();
             } else if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
                 this.playAnimation(this.IMAGES_WALKING); // show walking animation
                 this.idlingCounter = 0;
@@ -150,7 +152,6 @@ class Character extends MovableObject {
                 this.idlingCounter++;  // show idling or sleeping animation
                 this.idlingCounter <= 120 ? this.playAnimation(this.IMAGES_IDLING) : this.playAnimation(this.IMAGES_SLEEPING);
             }
-
         }, 125)
     }
 

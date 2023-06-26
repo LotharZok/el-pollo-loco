@@ -26,7 +26,7 @@ class MovableObject extends DrawableObject {
     };
 
     constructor() {
-
+        super();
     }
 
     loadImage(path) {
