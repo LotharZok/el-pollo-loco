@@ -1,11 +1,4 @@
 class MovableObject extends DrawableObject {
-    posX;
-    posY;
-    img;
-    height;
-    width;
-    imageCache = {};
-    currentImage = 0;
 
     speed = 0.15;
     otherDirection = false;
@@ -29,30 +22,12 @@ class MovableObject extends DrawableObject {
         super();
     }
 
-    loadImage(path) {
-        this.img = new Image();
-        this.img.src = path;
-    }
-
-    loadImages(imgArray) {
-        imgArray.forEach(pathInArray => {
-            let img = new Image();
-            img.src = pathInArray;
-            // this.imageCache.push(img);
-            this.imageCache[pathInArray] = pathInArray;
-        });
-    }
-
     playAnimation(imgArray) {
         let i = this.currentImage % imgArray.length;  // Aber currentImage läuft doch dann irgendwann über... auch wenn 9 Billionen lange dauert
         let path = imgArray[i];
         this.img.src = this.imageCache[path];
         this.currentImage++;
         // if (this.currentImage == this.IMAGES_WALKING.length) this.currentImage = 0
-    }
-
-    draw(ctx) {
-        ctx.drawImage(this.img, this.posX, this.posY, this.width, this.height);
     }
 
     drawFrame(ctx) {
