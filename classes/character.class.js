@@ -2,6 +2,12 @@ class Character extends MovableObject {
     // Größe ist immer gleich
     width = 305;
     height = 600;
+    offset = {
+        top: 240,
+        left: 50,
+        right: 75,
+        bottom: 30
+    };
     // Startposition ist immer gleich
     posX = 0;
     posY = 210; //210;

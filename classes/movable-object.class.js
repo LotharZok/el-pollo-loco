@@ -14,6 +14,14 @@ class MovableObject {
     speedY = 0;
     acceleration = 2;
 
+    // Offset for Collisions
+    offset = {
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0
+    };
+
     constructor() {
 
     }
@@ -48,25 +56,32 @@ class MovableObject {
     drawFrame(ctx) {
         // Rahmen für die Kollisionskontrolle - wird später wieder entfernt
         // TEST : Nur für Pepe und die Hühner
-        if (this instanceof Character || this instanceof Chicken) {
+        if (this instanceof Character || this instanceof Chicken || this instanceof Bottle || this instanceof Coin) {
             ctx.beginPath();
             ctx.lineWidth = '1';
             ctx.strokeStyle = 'blue';
-            ctx.rect(this.posX, this.posY, this.width, this.height);
+            ctx.rect(this.posX + this.offset.left, this.posY + this.offset.top, this.width - this.offset.left - this.offset.right, this.height - this.offset.top - this.offset.bottom);
             ctx.stroke();
         }
     }
 
     // Bessere Formel zur Kollisionsberechnung (Genauer)
     isColliding(movObj) {
-        return this.posX + this.width > movObj.posX &&
-            this.posY + this.height > movObj.posY &&
-            this.posX < movObj.posX &&
-            this.posY < movObj.posY + movObj.height;
+        // return this.posX + this.width > movObj.posX &&
+        //     this.posY + this.height > movObj.posY &&
+        //     this.posX < movObj.posX &&
+        //     this.posY < movObj.posY + movObj.height;
 
-        // return (this.posX + this.width) >= obj.posX && this.posX <= (obj.posX + obj.width) &&
-        //     (this.posY + this.offsetY + this.height) >= obj.posY &&
-        //     (this.posY + this.offsetY) <= (obj.posY + obj.height) &&
+        return (
+            this.posX + this.width - this.offset.right > movObj.posX + movObj.offset.left &&
+            this.posY + this.height - this.offset.bottom > movObj.posY + movObj.offset.top &&
+            this.posX + this.offset.left < movObj.posX + movObj.width - movObj.offset.right &&
+            this.posY + this.offset.top < movObj.posY + movObj.height - movObj.offset.bottom
+        )
+
+        // return (this.posX + this.width) >= movObj.posX && this.posX <= (movObj.posX + movObj.width) &&
+        //     (this.posY + this.offset.top + this.height) >= movObj.posY &&
+        //     (this.posY + this.offset.top) <= (movObj.posY + movObj.height) &&
         //     obj.onCollisionCourse; // Optional: hiermit könnten wir schauen, ob ein Objekt sich in die richtige Richtung bewegt. Nur dann kollidieren wir. Nützlich bei Gegenständen, auf denen man stehen kann.
     }
 

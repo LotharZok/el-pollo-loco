@@ -2,6 +2,12 @@ class Coin extends MovableObject {
     // Größe ist immer gleich
     width = 150;
     height = 150;
+    offset = {
+        top: 55,
+        left: 55,
+        right: 55,
+        bottom: 55
+    }
     yValues = [290, 420, 550, 680];
     moveWalking = {};
 

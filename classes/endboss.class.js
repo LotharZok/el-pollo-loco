@@ -3,6 +3,12 @@ class Endboss extends MovableObject {
     // Größe ist immer gleich
     width = 522;
     height = 609;
+    offset = {
+        top: 140,
+        left: 30,
+        right: 70,
+        bottom: 50
+    };
     moveWalking = {};
 
     IMAGES_WALKING = [
