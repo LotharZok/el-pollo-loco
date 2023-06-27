@@ -18,6 +18,9 @@ class World {
     ctx;
     keyboard;
     cameraX;
+    statusBarHealth = new StatusBar('health');
+    statusBarCoins = new StatusBar('coins');
+    statusBarBottles = new StatusBar('bottles');
 
     constructor(canvas, keyboard) {
         this.canvas = canvas;
@@ -41,7 +44,6 @@ class World {
         this.ctx.translate(this.cameraX, 0);             // Bewegen des Hintergrunds (d.h. in diesem Fall des gesamten Canvas)
 
         // Hintergrund-Ebenen (Luft, Wolken, Gelände)
-        // this.addToCanvas(this.air);                 // Der Air-Hintergrund ist unbeweglich
         this.addObjArrayToCanvas(this.air);
         this.addObjArrayToCanvas(this.level.clouds);      // Die Wolken bewegen sich unabhängig von der Spielfigur
         this.addObjArrayToCanvas(this.level.backgrounds); // Das Gelände bewegt sich mit der Spielfigur
@@ -57,6 +59,13 @@ class World {
         // Vordergrund-Ebenen : Charaktere (Pepe, Chicken)
         this.addToCanvas(this.character);
         this.addObjArrayToCanvas(this.level.enemies);
+
+        // Status Bars / Non-movable objects
+        this.ctx.translate(-this.cameraX, 0);  // Zurückbewegen des Hintergrunds für non-movable objects
+        this.addToCanvas(this.statusBarHealth);
+        this.addToCanvas(this.statusBarCoins);
+        this.addToCanvas(this.statusBarBottles);
+        this.ctx.translate(this.cameraX, 0); // Erneutes bewegen des Hintergrunds
 
         this.ctx.translate(-this.cameraX, 0);              // Bewegen des Hintergrunds (d.h. in diesem Fall des gesamten Canvas)
 
@@ -101,7 +110,8 @@ class World {
                 if (this.character.isColliding(enemy)) {
                     // console.log('Collison with Character', enemy);
                     this.character.hit();
-                    console.log('Energy: ', this.character.energy)
+                    console.log('Energy: ', this.character.energy);
+                    this.statusBarHealth.setPercentage('health', this.character.energy);
                 }
             });
         }, 200);

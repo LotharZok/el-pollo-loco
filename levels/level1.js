@@ -1,7 +1,10 @@
 enemies = [
     new Chicken(),
+    new ChickenSmall(),
     new Chicken(),
+    // new ChickenSmall(),
     new Chicken(),
+    // new ChickenSmall(),
     new Endboss() 
 ];
 

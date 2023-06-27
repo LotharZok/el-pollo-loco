@@ -12,7 +12,7 @@ class Character extends MovableObject {
     posX = 0;
     posY = 210; //210;
     // JSON-Objekte für die Bewegungen
-    speed = 15;
+    speed = 20;
     moveWalking = {};
     moveJumping = {};
     moveIdling = {};

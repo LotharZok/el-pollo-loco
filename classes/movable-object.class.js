@@ -30,18 +30,6 @@ class MovableObject extends DrawableObject {
         // if (this.currentImage == this.IMAGES_WALKING.length) this.currentImage = 0
     }
 
-    drawFrame(ctx) {
-        // Rahmen für die Kollisionskontrolle - wird später wieder entfernt
-        // TEST : Nur für Pepe und die Hühner
-        if (this instanceof Character || this instanceof Chicken || this instanceof Bottle || this instanceof Coin) {
-            ctx.beginPath();
-            ctx.lineWidth = '1';
-            ctx.strokeStyle = 'blue';
-            ctx.rect(this.posX + this.offset.left, this.posY + this.offset.top, this.width - this.offset.left - this.offset.right, this.height - this.offset.top - this.offset.bottom);
-            ctx.stroke();
-        }
-    }
-
     // Bessere Formel zur Kollisionsberechnung (Genauer)
     isColliding(movObj) {
         return (
