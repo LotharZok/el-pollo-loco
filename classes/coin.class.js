@@ -10,6 +10,7 @@ class Coin extends MovableObject {
     }
     yValues = [290, 420, 550, 680];
     moveWalking = {};
+    isCollected = false;
 
     IMAGES_WALKING = [
         'img/8_coin/coin_1.png',

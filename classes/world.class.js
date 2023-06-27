@@ -85,7 +85,7 @@ class World {
             this.flipImage(movObj);   // Spiegelt die Ausgabe
         }
         movObj.draw(this.ctx);
-        movObj.drawFrame(this.ctx);
+        // movObj.drawFrame(this.ctx);
 
         if (movObj.otherDirection) {  // Dreht die Spiegelung wieder um. Grund: Wir wollen ausschließlich das aktuelle Objekt spiegeln.
             this.flipImageBack(movObj);
@@ -108,10 +108,34 @@ class World {
         setInterval(() => {
             this.level.enemies.forEach((enemy) => {
                 if (this.character.isColliding(enemy)) {
-                    // console.log('Collison with Character', enemy);
-                    this.character.hit();
-                    console.log('Energy: ', this.character.energy);
-                    this.statusBarHealth.setPercentage('health', this.character.energy);
+                    if (this.character.isAboveGround()) {
+                        enemy.hasDied = true;
+                        enemy.speed = 0;
+                    } else if (!enemy.hasDied) {
+                        this.character.hit();
+                        this.statusBarHealth.setPercentage('health', this.character.energy);
+                    }
+                }
+            });
+            this.level.bottles.forEach((bottle) => {
+                if (this.character.isColliding(bottle)) {
+                    if (!bottle.isCollected) {
+                        this.statusBarBottles.percentage += 10;
+                        console.log('Bottles: ', this.statusBarBottles.percentage);
+                        bottle.isCollected = true;
+                        bottle.img.src = 'img/no-graphic.png';
+                    }
+                }
+            });
+            this.level.coins.forEach((coin) => {
+                if (this.character.isColliding(coin)) {
+                    if (!coin.isCollected) {
+                        this.statusBarCoins.percentage += 10;
+                        console.log('Coins: ', this.statusBarCoins.percentage);
+                        coin.isCollected = true;
+                        // coin.img.src = 'img/no-graphic.png';
+                        coin.IMAGES_WALKING = ['img/no-graphic.png'];
+                    }
                 }
             });
         }, 200);

@@ -108,23 +108,19 @@ class Character extends MovableObject {
 
         setInterval(() => {
             this.walkingSound.pause();
-            if (this.world.keyboard.RIGHT && this.posX < this.world.level.endX) {
-                // X-Koordinate erhöhen (gehen)
+            if (this.world.keyboard.RIGHT && this.posX < this.world.level.endX) {  // Walk right
                 this.moveRight();
                 this.otherDirection = false;
                 if (!this.isAboveGround())
                     this.walkingSound.play();
             };
-            if (this.world.keyboard.LEFT && this.posX > -2700) {
-                // X-Koordinate verringern (gehen)
+            if (this.world.keyboard.LEFT && this.posX > -2700) {  // Walk left
                 this.moveLeft();
                 this.otherDirection = true;
                 if (!this.isAboveGround())
                     this.walkingSound.play();
             };
-            // console.log('speedY: ' + this.speedY);
-            if (this.world.keyboard.SPACE && !this.isAboveGround()) {
-                // Y-Koordinate ändern (springen)
+            if (this.world.keyboard.SPACE && !this.isAboveGround()) {  // Jump
                 this.jump();
                 this.jumpingSound.play();
             }

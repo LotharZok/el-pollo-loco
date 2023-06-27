@@ -10,12 +10,12 @@ class Bottle extends MovableObject {
     };
     posY = 650;
     posX = 500;
+    isCollected = false;
 
     bottleGroundImages = [
         'img/6_salsa_bottle/1_salsa_bottle_on_ground.png',
         'img/6_salsa_bottle/2_salsa_bottle_on_ground.png'
     ]
-    
 
     constructor(newPosX) {
         super();
@@ -29,20 +29,9 @@ class Bottle extends MovableObject {
         this.posX = 390 + (newPosX * 150) + (Math.random() * 60 - 20);
         this.posY = 680 - Math.random() * 40;
         this.speed = 0;
-
-        // Bilder laden : Gehen
-        // this.loadImages(this.IMAGES_WALKING);
-        // this.moveWalking = this.imageCache;
-        
-        // this.animate();
     }
 
     animate() {
-        // this.moveLeft();
 
-        // setInterval(() => {
-        //     this.playAnimation(this.IMAGES_WALKING);
-        // }, 175)
-        
     }
 }
