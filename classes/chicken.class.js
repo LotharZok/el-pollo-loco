@@ -1,5 +1,7 @@
 class Chicken extends MovableObject {
-    // Größe ist immer gleich
+    /**
+    * Global Variables
+    */
     width = 124;
     height = 122;
     speed = 0.15;
@@ -13,6 +15,9 @@ class Chicken extends MovableObject {
     rndm = 0;
     hasDied = false;
 
+    /**
+     * Arrays with images for moving a chicken
+     */
     IMAGES_WALKING = [
         'img/3_enemies_chicken/chicken_normal/1_walk/1_w.png',
         'img/3_enemies_chicken/chicken_normal/1_walk/2_w.png',
@@ -30,6 +35,9 @@ class Chicken extends MovableObject {
         'img/3_enemies_chicken/chicken_small/2_dead/dead.png'
     ]
 
+    /**
+     * Constructor for Chicken Class
+     */
     constructor() {
         super()
         this.rndm = Math.round(Math.random());
@@ -45,18 +53,19 @@ class Chicken extends MovableObject {
             this.height = 105;
         }
         
-
-        this.posX = 400 + Math.random() * 4000; 
-        this.posY = 678 - Math.random() * 25;
+        this.posX = 400 + Math.random() * 4000;    // Random X-Position but at least 400 px from left
+        this.posY = 678 - Math.random() * 25;      // Random Y-Position in a certain range
         this.speed = 0.15 + Math.random() * 0.25;  // Zufällig Geschwindigkeit zwischen 0.15 und 0.4
 
-        // // Bilder laden : Gehen
-        // this.loadImages(this.IMAGES_WALKING);
         this.moveWalking = this.imageCache;
         
         this.animate();
     }
 
+
+    /**
+     * Animation of a chicken
+     */
     animate() {
         // this.moveLeft();
         setInterval( () => {

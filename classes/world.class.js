@@ -21,6 +21,7 @@ class World {
     statusBarHealth = new StatusBar('health');
     statusBarCoins = new StatusBar('coins');
     statusBarBottles = new StatusBar('bottles');
+    throwableBottles = [new Bottle(0)];
 
     constructor(canvas, keyboard) {
         this.canvas = canvas;
@@ -31,7 +32,7 @@ class World {
         this.draw();
         this.setWorld();
 
-        this.checkCollisions();
+        this.runScreen();
     }
 
     setWorld() {
@@ -56,9 +57,10 @@ class World {
             this.addToCanvas(this.level.bottles[i]);
         }
 
-        // Vordergrund-Ebenen : Charaktere (Pepe, Chicken)
+        // Vordergrund-Ebenen : Charaktere (Pepe, Chicken, etc.)
         this.addToCanvas(this.character);
         this.addObjArrayToCanvas(this.level.enemies);
+        this.addObjArrayToCanvas(this.throwableBottles);
 
         // Status Bars / Non-movable objects
         this.ctx.translate(-this.cameraX, 0);  // Zurückbewegen des Hintergrunds für non-movable objects
@@ -84,7 +86,13 @@ class World {
         if (movObj.otherDirection) {
             this.flipImage(movObj);   // Spiegelt die Ausgabe
         }
-        movObj.draw(this.ctx);
+        if (movObj instanceof Bottle || movObj instanceof Coin) {
+            if (!movObj.isCollected) {
+                movObj.draw(this.ctx);
+            }
+        } else {
+            movObj.draw(this.ctx);
+        }
         // movObj.drawFrame(this.ctx);
 
         if (movObj.otherDirection) {  // Dreht die Spiegelung wieder um. Grund: Wir wollen ausschließlich das aktuelle Objekt spiegeln.
@@ -104,40 +112,55 @@ class World {
         this.ctx.restore();                  // Gespeicherte Werte (von flipImage) wiederherstellen
     }
 
-    checkCollisions() {
+    runScreen() {
         setInterval(() => {
-            this.level.enemies.forEach((enemy) => {
-                if (this.character.isColliding(enemy)) {
-                    if (this.character.isAboveGround()) {
-                        enemy.hasDied = true;
-                        enemy.speed = 0;
-                    } else if (!enemy.hasDied) {
-                        this.character.hit();
-                        this.statusBarHealth.setPercentage('health', this.character.energy);
-                    }
-                }
-            });
-            this.level.bottles.forEach((bottle) => {
-                if (this.character.isColliding(bottle)) {
-                    if (!bottle.isCollected) {
-                        this.statusBarBottles.percentage += 10;
-                        console.log('Bottles: ', this.statusBarBottles.percentage);
-                        bottle.isCollected = true;
-                        bottle.img.src = 'img/no-graphic.png';
-                    }
-                }
-            });
-            this.level.coins.forEach((coin) => {
-                if (this.character.isColliding(coin)) {
-                    if (!coin.isCollected) {
-                        this.statusBarCoins.percentage += 10;
-                        console.log('Coins: ', this.statusBarCoins.percentage);
-                        coin.isCollected = true;
-                        // coin.img.src = 'img/no-graphic.png';
-                        coin.IMAGES_WALKING = ['img/no-graphic.png'];
-                    }
-                }
-            });
+            this.checkCollisionPepeEnemy();
+            this.checkCollisionPepeBottle();
+            this.checkCollisionPepeCoin();
+            this.checkCollisionBottleBoss();
         }, 200);
+    }
+
+    checkCollisionPepeEnemy() {
+        this.level.enemies.forEach((enemy) => {
+            if (this.character.isColliding(enemy)) {
+                if (this.character.isAboveGround()) {
+                    enemy.hasDied = true;
+                    enemy.speed = 0;
+                } else if (!enemy.hasDied) {
+                    this.character.hit();
+                    this.statusBarHealth.setPercentage('health', this.character.energy);
+                }
+            }
+        });
+    }
+
+    checkCollisionPepeBottle() {
+        this.level.bottles.forEach((bottle) => {
+            if (this.character.isColliding(bottle)) {
+                if (!bottle.isCollected) {
+                    this.level.throwableBottles++;
+                    let newValue = this.statusBarBottles.percentage += (100/this.level.bottles.length);
+                    this.statusBarBottles.setPercentage('bottles', newValue);
+                    bottle.isCollected = true;
+                }
+            }
+        });
+    }
+
+    checkCollisionPepeCoin() {
+        this.level.coins.forEach((coin) => {
+            if (this.character.isColliding(coin)) {
+                if (!coin.isCollected) {
+                    let newValue = this.statusBarCoins.percentage += (100/this.level.coins.length);
+                    this.statusBarCoins.setPercentage('coins', newValue);
+                    coin.isCollected = true;
+                }
+            }
+        });
+    }
+
+    checkCollisionBottleBoss() {
+
     }
 }

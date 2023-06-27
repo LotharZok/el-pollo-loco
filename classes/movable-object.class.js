@@ -68,7 +68,11 @@ class MovableObject extends DrawableObject {
     }
 
     isAboveGround() {
-        return this.posY < 200;
+        if (this instanceof Bottle) {  // Bottles should always fall down, even outside the canvas
+            return true;
+        } else {
+            return this.posY < 200;
+        }
     }
 
     jump() {

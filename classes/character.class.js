@@ -124,6 +124,21 @@ class Character extends MovableObject {
                 this.jump();
                 this.jumpingSound.play();
             }
+            if (this.world.keyboard.THROW) {
+                this.idlingCounter = 0;
+                if (this.world.level.throwableBottles > 0) {
+                    // console.log('ich kann werfen');
+                    this.world.level.throwableBottles--;
+                    // Throw bottle
+                    this.world.throwableBottles[0].throw(this.posX, this.posY);
+
+                    let newValue = this.world.statusBarBottles.percentage -= (100/this.world.level.bottles.length);
+                    this.world.statusBarBottles.setPercentage('bottles', newValue);
+
+                // } else {
+                    // console.log('keine Flasche zum werfen vorhanden');
+                }
+            }
             this.world.cameraX = -(this.posX) + 100;  // Bewegung der (Hintergrund)-Welt (Pepes Position bleibt dadurch auf dem Screen die gleiche).
         }, 75);
 

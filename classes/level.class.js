@@ -5,6 +5,7 @@ class Level {
     coins;
     bottles;
     endX = 3000;
+    throwableBottles = 0;
 
     constructor(newEnemies, newClouds, newBackgrounds, newCoins, newBottles) {
         this.enemies = newEnemies;
