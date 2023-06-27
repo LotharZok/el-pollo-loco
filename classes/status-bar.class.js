@@ -24,6 +24,14 @@ class StatusBar extends DrawableObject {
         'img/7_statusbars/1_statusbar/3_statusbar_bottle/blue/80.png',
         'img/7_statusbars/1_statusbar/3_statusbar_bottle/blue/100.png'
     ];
+    IMAGES_BOSS = [
+        'img/7_statusbars/2_statusbar_endboss/0.png',
+        'img/7_statusbars/2_statusbar_endboss/20.png',
+        'img/7_statusbars/2_statusbar_endboss/40.png',
+        'img/7_statusbars/2_statusbar_endboss/60.png',
+        'img/7_statusbars/2_statusbar_endboss/80.png',
+        'img/7_statusbars/2_statusbar_endboss/100.png'
+    ]
     
     width = 298;
     height = 79;
@@ -51,6 +59,12 @@ class StatusBar extends DrawableObject {
                 this.posY = 170;
                 this.setPercentage('coins', 0);
                 break;
+            case 'boss':
+                this.loadImage(this.IMAGES_BOSS[0]);
+                this.loadImages(this.IMAGES_BOSS);
+                this.posY = 10;
+                this.posX = 1100;
+                this.setPercentage('boss', 100);
             default:
                 break;
         }
@@ -68,6 +82,9 @@ class StatusBar extends DrawableObject {
                 break;
             case 'bottles':
                 imagePath = this.IMAGES_BOTTLES[this.getImageIndex()];
+                break;
+            case 'boss':
+                imagePath = this.IMAGES_BOSS[this.getImageIndex()];
                 break;
             default:
                 break;

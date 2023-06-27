@@ -1,22 +1,27 @@
+/**
+ * Create Enemies:
+ * One End Boss (first entry in array).
+ * Twelve chicken (random normal and small);
+ */
 enemies = [
-    new Chicken(),
-    new Chicken(),
-    new Chicken(),
-    new Chicken(),
-    new Chicken(),
-    new Chicken(),
-    new Chicken(),
-    new Chicken(),
-    new Chicken(),
-    new Chicken(),
-    new Chicken(),
-    new Chicken(),
-    new Endboss() 
+    new Endboss()
 ];
+for (let i = 0; i < 12; i++) {
+    enemies.push(new Chicken());
+}
 
+
+/**
+ * Create Clouds
+ */
 clouds = [
     new Cloud()
 ];
+
+
+/**
+ * Create Background
+ */
 backgrounds = [
     new BgLayer(3, -2880),
     new BgLayer(2, -2880),
@@ -31,15 +36,24 @@ backgrounds = [
     new BgLayer(1, 2880)
 ];
 
+
+/** 
+ * Create 15 Coins
+ */
 coins = [];
 for (let i = 0; i < 15; i++) {
     coins.push(new Coin(Math.floor(Math.random() * 3), i));
 }
 
+
+/**
+ * Create 15 bottles
+ */
 bottles = [];
 for (let i = 0; i < 15; i++) {
     bottles.push(new Bottle(i));
 }
+
 
 /**
  * If a bottle is collected, this variable is set + 1.
@@ -48,4 +62,8 @@ for (let i = 0; i < 15; i++) {
  */
 throwableBottles = 0;
 
+
+/**
+ * Create a new Level
+ */
 const level1 = new Level(enemies, clouds, backgrounds, coins, bottles);

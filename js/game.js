@@ -59,7 +59,7 @@ window.addEventListener('keydown', (e) => {
         case 'Enter':
         case 'NumpadEnter':
             // console.log('werfen');
-            keyboard.THROW = true;
+            keyboard.THROW = false; //true;
             break;
 
         default:
@@ -106,7 +106,7 @@ window.addEventListener('keyup', (e) => {
         case 'KeyQ':
         case 'Enter':
         case 'NumpadEnter':
-            keyboard.THROW = false;
+            keyboard.THROW = true; // false;
             break;
 
         default:

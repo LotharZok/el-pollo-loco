@@ -11,6 +11,7 @@ class Bottle extends MovableObject {
     posY = 650;
     posX = 500;
     isCollected = false;
+    hasHitBoss = false;
 
     bottleGroundImages = [
         'img/6_salsa_bottle/1_salsa_bottle_on_ground.png',
@@ -51,12 +52,15 @@ class Bottle extends MovableObject {
         
         this.posX = x + 200;
         this.posY = y + 300;
-        this.speedY = 25;
+        this.speedY = 30;
         this.applyGravity();
         setInterval(() => {
-            this.posX += 50;
+            // if (this.posX < 3000) {
+            //     console.log('posX: ', this.posX);
+            // }
+            this.posX += 15;
             this.playAnimation(this.bottleRotationImages);
-        }, 100);
+        }, 25);
     }
 
     animate() {

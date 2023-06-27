@@ -36,7 +36,7 @@ class DrawableObject {
     drawFrame(ctx) {
         // Rahmen für die Kollisionskontrolle - wird später wieder entfernt
         // TEST : Nur für bestimmte Klassen
-        if (this instanceof Character || this instanceof Chicken || this instanceof Bottle || this instanceof Coin) {
+        if (this instanceof Character || this instanceof Chicken || this instanceof Bottle || this instanceof Coin || this instanceof Endboss) {
             ctx.beginPath();
             ctx.lineWidth = '1';
             ctx.strokeStyle = 'blue';

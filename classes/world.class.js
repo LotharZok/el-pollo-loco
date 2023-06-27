@@ -21,18 +21,24 @@ class World {
     statusBarHealth = new StatusBar('health');
     statusBarCoins = new StatusBar('coins');
     statusBarBottles = new StatusBar('bottles');
-    throwableBottles = [new Bottle(0)];
-
+    statusBarBoss = new StatusBar('boss');
+    throwableBottles = [];
+    
     constructor(canvas, keyboard) {
         this.canvas = canvas;
         this.ctx = canvas.getContext('2d');
-
+        
         this.keyboard = keyboard;
-
+        
         this.draw();
         this.setWorld();
-
+        
         this.runScreen();
+
+        // Create 15 Bottles to throw
+        for (let i = 0; i < this.level.bottles.length; i++) {
+            this.throwableBottles.push(new Bottle(1200));  // 1200 means they are not visible when created because they are beneath the canvas
+        }
     }
 
     setWorld() {
@@ -67,6 +73,7 @@ class World {
         this.addToCanvas(this.statusBarHealth);
         this.addToCanvas(this.statusBarCoins);
         this.addToCanvas(this.statusBarBottles);
+        this.addToCanvas(this.statusBarBoss);
         this.ctx.translate(this.cameraX, 0); // Erneutes bewegen des Hintergrunds
 
         this.ctx.translate(-this.cameraX, 0);              // Bewegen des Hintergrunds (d.h. in diesem Fall des gesamten Canvas)
@@ -161,6 +168,13 @@ class World {
     }
 
     checkCollisionBottleBoss() {
-
+        this.throwableBottles.forEach(bottle => {
+            if (bottle.isColliding(enemies[0])) {
+                if (!bottle.hasHitBoss) {
+                    console.log('Boss wurde getroffen');
+                    bottle.hasHitBoss = true; // One bottle may only once hit the boss
+                }
+            }
+        });
     }
 }

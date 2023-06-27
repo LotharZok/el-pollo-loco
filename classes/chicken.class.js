@@ -52,7 +52,7 @@ class Chicken extends MovableObject {
             this.width = 118;
             this.height = 105;
         }
-        
+
         this.posX = 400 + Math.random() * 4000;    // Random X-Position but at least 400 px from left
         this.posY = 678 - Math.random() * 25;      // Random Y-Position in a certain range
         this.speed = 0.15 + Math.random() * 0.25;  // Zufällig Geschwindigkeit zwischen 0.15 und 0.4

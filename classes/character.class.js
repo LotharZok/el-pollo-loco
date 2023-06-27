@@ -24,6 +24,7 @@ class Character extends MovableObject {
     // Ist Pepe gestorben?
     hasDied = false;
     dyingCounter = 0;
+    bottleCounter = 0; // Needed for registering which bottles have been thrown
 
     IMAGES_IDLING = [
         'img/2_character_pepe/1_idle/idle/I-1.png',
@@ -125,12 +126,14 @@ class Character extends MovableObject {
                 this.jumpingSound.play();
             }
             if (this.world.keyboard.THROW) {
+                this.world.keyboard.THROW = false;
                 this.idlingCounter = 0;
                 if (this.world.level.throwableBottles > 0) {
                     // console.log('ich kann werfen');
                     this.world.level.throwableBottles--;
                     // Throw bottle
-                    this.world.throwableBottles[0].throw(this.posX, this.posY);
+                    this.world.throwableBottles[this.bottleCounter].throw(this.posX, this.posY);
+                    this.bottleCounter++;
 
                     let newValue = this.world.statusBarBottles.percentage -= (100/this.world.level.bottles.length);
                     this.world.statusBarBottles.setPercentage('bottles', newValue);
