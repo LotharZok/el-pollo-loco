@@ -4,6 +4,7 @@
 let canvas;
 let world;
 let keyboard = new Keyboard();
+let welcomeSound = new Audio('audio/start-screen-sound.mp3');
 
 
 /**
@@ -12,6 +13,19 @@ let keyboard = new Keyboard();
 function init() {
     canvas = document.getElementById('canvas');
     world = new World(canvas, keyboard);
+}
+
+
+function welcomeToGame() {
+    welcomeSound.loop = true;
+    welcomeSound.play();
+}
+
+function hideWelcome() {
+    welcomeSound.pause();
+    document.getElementById('canvas').classList.remove('d-none');
+    document.getElementById('welcomeScreen').classList.add('d-none');
+    init();
 }
 
 

@@ -12,6 +12,10 @@ class Bottle extends MovableObject {
     posX = 500;
     isCollected = false;
     hasHitBoss = false;
+    throwInterval;
+    splashInterval;
+    splashCounter = 0;
+    bottleBreakSound = new Audio('audio/bottle-break-2.mp3');
 
     bottleGroundImages = [
         'img/6_salsa_bottle/1_salsa_bottle_on_ground.png',
@@ -30,7 +34,9 @@ class Bottle extends MovableObject {
         'img/6_salsa_bottle/bottle_rotation/bottle_splash/4_bottle_splash.png',
         'img/6_salsa_bottle/bottle_rotation/bottle_splash/5_bottle_splash.png',
         'img/6_salsa_bottle/bottle_rotation/bottle_splash/6_bottle_splash.png'
-    ]
+    ];
+
+    throwingSound = new Audio('audio/bottle-swish.mp3');
 
     constructor(newPosX) {
         super();
@@ -47,6 +53,7 @@ class Bottle extends MovableObject {
     }
 
     throw(x, y, otherDirection) {
+        this.throwingSound.play();
         super.loadImage(this.bottleRotationImages[0]);
         super.loadImages(this.bottleRotationImages);
         
@@ -54,9 +61,22 @@ class Bottle extends MovableObject {
         this.posY = y + 300;
         this.speedY = 30;
         this.applyGravity();
-        setInterval(() => {
+        this.throwInterval = setInterval(() => {
             otherDirection ? this.posX -= 15 : this.posX += 15;
             this.playAnimation(this.bottleRotationImages);
+        }, 25);
+    }
+
+    startSplashAnimation() {
+        clearInterval(this.throwInterval);
+        this.loadImages(this.bottleSplashImages);
+        this.splashInterval = setInterval(() => {
+            this.playAnimation(this.bottleSplashImages);
+            this.bottleBreakSound.play();
+            this.splashCounter++;
+            if (this.splashCounter >= 6) {
+                clearInterval(this.splashInterval);
+            }
         }, 25);
     }
 

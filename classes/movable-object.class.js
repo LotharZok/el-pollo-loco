@@ -54,11 +54,6 @@ class MovableObject extends DrawableObject {
         return timePassed < 1000; // last hit is more than one second old (1000 milliseconds)
     }
 
-    wasHurt() {
-        let timePassed = new Date().getTime() - this.lastHit; // in milliseconds
-        return timePassed < 1000; // last hit is more than one second old (1000 milliseconds)
-    }
-
     isDead() {
         return this.energy <= 0;
     }

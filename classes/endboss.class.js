@@ -13,8 +13,8 @@ class Endboss extends MovableObject {
 
     isAlerted = false;
     isAttacking = false;
-    isHurt = false;
-    isDead = false;
+    // isHurt = false;
+    // isDead = false;
 
     IMAGES_WALKING = [
         'img/4_enemie_boss_chicken/1_walk/G1.png',
@@ -79,7 +79,7 @@ class Endboss extends MovableObject {
         this.moveLeft();
 
         setInterval(() => {
-            if (this.wasHurt()) {  // WARUM kann ich das isHurt (aus movableObject) nicht nutzen???
+            if (this.isHurt()) {  // WARUM kann ich das isHurt (aus movableObject) nicht nutzen???
                 this.playAnimation(this.IMAGES_HURT);
             } else {
                 this.playAnimation(this.currentMovingArray);

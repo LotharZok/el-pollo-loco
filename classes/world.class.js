@@ -23,6 +23,11 @@ class World {
     statusBarBottles = new StatusBar('bottles');
     statusBarBoss = new StatusBar('boss');
     throwableBottles = [];
+
+    coinCollectSound = new Audio('audio/coin-collected.mp3');
+    bottleCollectSound = new Audio('audio/bottle-cling.mp3');
+    backgroundSound = new Audio('audio/game-background.mp3');
+    cricketSound = new Audio('audio/cricket.mp3');
     
     constructor(canvas, keyboard) {
         this.canvas = canvas;
@@ -32,8 +37,14 @@ class World {
         
         this.draw();
         this.setWorld();
-        
+        this.setSoundVolumes();
         this.runScreen();
+
+        this.backgroundSound.volume = 0.15;
+        this.backgroundSound.loop = true;
+        this.backgroundSound.play();
+        this.cricketSound.loop = true;
+        this.cricketSound.play();
 
         // Create 15 Bottles to throw
         for (let i = 0; i < this.level.bottles.length; i++) {
@@ -43,6 +54,11 @@ class World {
 
     setWorld() {
         this.character.world = this;
+    }
+
+    setSoundVolumes() {
+        this.coinCollectSound.volume = 0.1;
+        this.bottleCollectSound.volume = 0.5;
     }
 
     draw() {
@@ -149,6 +165,7 @@ class World {
             if (this.character.isColliding(bottle)) {
                 if (!bottle.isCollected) {
                     this.level.throwableBottles++;
+                    this.bottleCollectSound.play();
                     let newValue = this.statusBarBottles.percentage += (100/this.level.bottles.length);
                     this.statusBarBottles.setPercentage('bottles', newValue);
                     bottle.isCollected = true;
@@ -161,6 +178,7 @@ class World {
         this.level.coins.forEach((coin) => {
             if (this.character.isColliding(coin)) {
                 if (!coin.isCollected) {
+                    this.coinCollectSound.play();
                     let newValue = this.statusBarCoins.percentage += (100/this.level.coins.length);
                     this.statusBarCoins.setPercentage('coins', newValue);
                     coin.isCollected = true;
@@ -169,14 +187,19 @@ class World {
         });
     }
 
+
+    /**
+     * Checks if a bottle has hit the end boss.
+     * Starts reactions if true.
+     */
     checkCollisionBottleBoss() {
         this.throwableBottles.forEach(bottle => {
             if (bottle.isColliding(enemies[0])) {
                 if (!bottle.hasHitBoss) {
-                    // console.log('Boss wurde getroffen');
                     bottle.hasHitBoss = true; // One bottle may only once hit the boss
-                    enemies[0].hit(10);
+                    enemies[0].hit(10);       // Calls the hit-function of the boss
                     this.statusBarBoss.setPercentage('boss', enemies[0].energy);
+                    bottle.startSplashAnimation();
                 }
             }
         });
