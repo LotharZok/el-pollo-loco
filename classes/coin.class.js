@@ -20,7 +20,7 @@ class Coin extends MovableObject {
     constructor(newPosY, newPosX) {
         super().loadImage('img/8_coin/coin_1.png')
 
-        this.posX = 400 + (newPosX * 170); 
+        this.posX = 400 + (newPosX * 160); 
         this.posY = this.yValues[newPosY];
         this.speed = 0;
 

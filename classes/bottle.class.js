@@ -41,24 +41,21 @@ class Bottle extends MovableObject {
             this.offset.right = 40;
         }
 
-        this.posX = 390 + (newPosX * 150) + (Math.random() * 60 - 20);
+        this.posX = 390 + (newPosX * 140) + (Math.random() * 60 - 20);
         this.posY = 680 - Math.random() * 40;
         this.speed = 0;
     }
 
-    throw(x, y) {
+    throw(x, y, otherDirection) {
         super.loadImage(this.bottleRotationImages[0]);
         super.loadImages(this.bottleRotationImages);
         
-        this.posX = x + 200;
+        this.posX = x + 100;
         this.posY = y + 300;
         this.speedY = 30;
         this.applyGravity();
         setInterval(() => {
-            // if (this.posX < 3000) {
-            //     console.log('posX: ', this.posX);
-            // }
-            this.posX += 15;
+            otherDirection ? this.posX -= 15 : this.posX += 15;
             this.playAnimation(this.bottleRotationImages);
         }, 25);
     }

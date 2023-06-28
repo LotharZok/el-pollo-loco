@@ -64,9 +64,11 @@ class World {
         }
 
         // Vordergrund-Ebenen : Charaktere (Pepe, Chicken, etc.)
-        this.addToCanvas(this.character);
         this.addObjArrayToCanvas(this.level.enemies);
         this.addObjArrayToCanvas(this.throwableBottles);
+        if (!this.character.hasDied) {
+            this.addToCanvas(this.character);
+        }
 
         // Status Bars / Non-movable objects
         this.ctx.translate(-this.cameraX, 0);  // Zurückbewegen des Hintergrunds für non-movable objects
@@ -135,7 +137,7 @@ class World {
                     enemy.hasDied = true;
                     enemy.speed = 0;
                 } else if (!enemy.hasDied) {
-                    this.character.hit();
+                    this.character.hit(2);
                     this.statusBarHealth.setPercentage('health', this.character.energy);
                 }
             }
@@ -171,8 +173,10 @@ class World {
         this.throwableBottles.forEach(bottle => {
             if (bottle.isColliding(enemies[0])) {
                 if (!bottle.hasHitBoss) {
-                    console.log('Boss wurde getroffen');
+                    // console.log('Boss wurde getroffen');
                     bottle.hasHitBoss = true; // One bottle may only once hit the boss
+                    enemies[0].hit(10);
+                    this.statusBarBoss.setPercentage('boss', enemies[0].energy);
                 }
             }
         });

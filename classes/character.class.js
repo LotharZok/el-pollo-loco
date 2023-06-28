@@ -13,12 +13,12 @@ class Character extends MovableObject {
     posY = 210; //210;
     // JSON-Objekte für die Bewegungen
     speed = 20;
-    moveWalking = {};
-    moveJumping = {};
-    moveIdling = {};
-    moveSleeping = {};
-    moveHurting = {};
-    moveDying = {};
+    // moveWalking = {};
+    // moveJumping = {};
+    // moveIdling = {};
+    // moveSleeping = {};
+    // moveHurting = {};
+    // moveDying = {};
     // Wie lange ist Pepe schon im Wartemodus?
     idlingCounter = 0;
     // Ist Pepe gestorben?
@@ -128,18 +128,14 @@ class Character extends MovableObject {
             if (this.world.keyboard.THROW) {
                 this.world.keyboard.THROW = false;
                 this.idlingCounter = 0;
-                if (this.world.level.throwableBottles > 0) {
-                    // console.log('ich kann werfen');
+                if (this.world.level.throwableBottles > 0) {  // Only if there are bottles left to throw
                     this.world.level.throwableBottles--;
                     // Throw bottle
-                    this.world.throwableBottles[this.bottleCounter].throw(this.posX, this.posY);
+                    this.world.throwableBottles[this.bottleCounter].throw(this.posX, this.posY, this.otherDirection);
                     this.bottleCounter++;
 
                     let newValue = this.world.statusBarBottles.percentage -= (100/this.world.level.bottles.length);
                     this.world.statusBarBottles.setPercentage('bottles', newValue);
-
-                // } else {
-                    // console.log('keine Flasche zum werfen vorhanden');
                 }
             }
             this.world.cameraX = -(this.posX) + 100;  // Bewegung der (Hintergrund)-Welt (Pepes Position bleibt dadurch auf dem Screen die gleiche).
@@ -151,10 +147,11 @@ class Character extends MovableObject {
                 this.idlingCounter = 0;
             } else if (this.isDead()) {
                 if (!this.hasDied) {  // show dying animation, but only once
+                    this.applyGravity();
                     this.playAnimation(this.IMAGES_DYING);
                     this.dyingSound.play();
                     this.dyingCounter++;
-                    if (this.dyingCounter >= 7) this.hasDied = true;
+                    if (this.dyingCounter > 6) this.hasDied = true;
                 }
             } else if (this.isHurt()) {
                 this.playAnimation(this.IMAGES_HURTING); // show hurting animation

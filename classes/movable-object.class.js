@@ -40,8 +40,8 @@ class MovableObject extends DrawableObject {
         );
     }
 
-    hit() {
-        this.energy -= 2;
+    hit(amount) {
+        this.energy -= amount;
         if (this.energy < 0) {
             this.energy = 0;
         } else {
@@ -51,7 +51,12 @@ class MovableObject extends DrawableObject {
 
     isHurt() {
         let timePassed = new Date().getTime() - this.lastHit; // in milliseconds
-        return timePassed < 1000; // last hit is more than one and a half seconds old (5000 milliseconds)
+        return timePassed < 1000; // last hit is more than one second old (1000 milliseconds)
+    }
+
+    wasHurt() {
+        let timePassed = new Date().getTime() - this.lastHit; // in milliseconds
+        return timePassed < 1000; // last hit is more than one second old (1000 milliseconds)
     }
 
     isDead() {
