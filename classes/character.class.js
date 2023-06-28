@@ -25,6 +25,8 @@ class Character extends MovableObject {
     hasDied = false;
     dyingCounter = 0;
     bottleCounter = 0; // Needed for registering which bottles have been thrown
+    keyInterval;
+    characterInterval;
 
     IMAGES_IDLING = [
         'img/2_character_pepe/1_idle/idle/I-1.png',
@@ -107,7 +109,7 @@ class Character extends MovableObject {
 
     animate() {
 
-        setInterval(() => {
+        this.keyInterval = setInterval(() => {
             this.walkingSound.pause();
             if (this.world.keyboard.RIGHT && this.posX < this.world.level.endX) {  // Walk right
                 this.moveRight();
@@ -141,7 +143,7 @@ class Character extends MovableObject {
             this.world.cameraX = -(this.posX) + 100;  // Bewegung der (Hintergrund)-Welt (Pepes Position bleibt dadurch auf dem Screen die gleiche).
         }, 75);
 
-        setInterval(() => {
+        this.characterInterval = setInterval(() => {
             if (this.isAboveGround()) {
                 this.playAnimation(this.IMAGES_JUMPING);  // show jumping animation
                 this.idlingCounter = 0;
@@ -151,7 +153,10 @@ class Character extends MovableObject {
                     this.playAnimation(this.IMAGES_DYING);
                     this.dyingSound.play();
                     this.dyingCounter++;
-                    if (this.dyingCounter > 6) this.hasDied = true;
+                    if (this.dyingCounter >= 6) this.hasDied = true;
+                } else {
+                    clearInterval(this.keyInterval);
+                    clearInterval(this.characterInterval);
                 }
             } else if (this.isHurt()) {
                 this.playAnimation(this.IMAGES_HURTING); // show hurting animation

@@ -28,6 +28,7 @@ class World {
     bottleCollectSound = new Audio('audio/bottle-cling.mp3');
     backgroundSound = new Audio('audio/game-background.mp3');
     cricketSound = new Audio('audio/cricket.mp3');
+    squishSound = new Audio('audio/chicken-squish.mp3');
     
     constructor(canvas, keyboard) {
         this.canvas = canvas;
@@ -150,8 +151,11 @@ class World {
         this.level.enemies.forEach((enemy) => {
             if (this.character.isColliding(enemy)) {
                 if (this.character.isAboveGround()) {
-                    enemy.hasDied = true;
-                    enemy.speed = 0;
+                    if (!enemy.hasDied) {
+                        this.squishSound.play();
+                        enemy.hasDied = true;
+                        enemy.speed = 0;
+                    }
                 } else if (!enemy.hasDied) {
                     this.character.hit(2);
                     this.statusBarHealth.setPercentage('health', this.character.energy);
