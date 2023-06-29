@@ -10,6 +10,7 @@
     <script src="./classes/status-bar.class.js"></script>
     <script src="./classes/movable-object.class.js"></script>
     <script src="./classes/air.class.js"></script>
+    <script src="./classes/end-game-image.class.js"></script>
     <script src="./classes/bg-layer.class.js"></script>
     <script src="./classes/character.class.js"></script>
     <script src="./classes/chicken.class.js"></script>
@@ -42,34 +43,36 @@
         Click here for information
     </div>
 
-    <div id="howToPlay" class="d-none">
-        <h2>How To Play:</h2>
-        <table>
-            <tr>
-                <td>Walk Left</td>
-                <td>Push Key A or Arrow Key Left or Number 4 on Numeric Keypad</td>
-            </tr>
-            <tr>
-                <td>Walk Right</td>
-                <td>Push Key D or Arrow Key Right or Number 6 on Numeric Keypad</td>
-            </tr>
-            <tr>
-                <td>Jump</td>
-                <td>Push Space Bar</td>
-            </tr>
-            <tr>
-                <td>Throw Bottle</td>
-                <td>Push Key Q or Key E or Enter or Enter on Numeric Keypad</td>
-            </tr>
-        </table>
-        <div>Collect Bottles and Coins by walking over them or jump to them when above</div>
-        <div>Kill chickens by jumping on them</div>
-        <div>Kill the large chicken a.k.a. the end boss by throwing at least 10 bottles on it</div>
-        <div class="infoButton">
-            <button id="btnCloseInfo" onclick="hideInformation()">) Click here to close information (</button>
+    <div id="infoScreen" class="d-none">
+        <div id="howToPlay">
+            <h2>How To Play:</h2>
+            <table>
+                <tr>
+                    <td>Walk Left</td>
+                    <td>Push Key A or Arrow Key Left or Number 4 on Numeric Keypad</td>
+                </tr>
+                <tr>
+                    <td>Walk Right</td>
+                    <td>Push Key D or Arrow Key Right or Number 6 on Numeric Keypad</td>
+                </tr>
+                <tr>
+                    <td>Jump</td>
+                    <td>Push Space Bar</td>
+                </tr>
+                <tr>
+                    <td>Throw Bottle</td>
+                    <td>Push Key Q or Key E or Enter or Enter on Numeric Keypad</td>
+                </tr>
+            </table>
+            <div>Collect Bottles and Coins by walking over them or jump to them when above</div>
+            <div>Kill chickens by jumping on them</div>
+            <div>Kill the large chicken a.k.a. the end boss by throwing at least 10 bottles on it</div>
+            <div class="infoButton">
+                <button id="btnCloseInfo" onclick="hideInformation()">) Click here to close information (</button>
+            </div>
         </div>
-        
     </div>
+
     
 </body>
 </html>

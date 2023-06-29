@@ -10,6 +10,8 @@ class World {
         new Air(4320)
     ];
     character = new Character();
+    wonImg = new EndGameImage('./img/9_intro_outro_screens/game_over/game_over_1.png');
+    lostImg = new EndGameImage('./img/9_intro_outro_screens/game_over/oh_no_you_lost.png');
     // enemies = level1.enemies;
     // clouds = level1.clouds;
     // backgrounds = level1.backgrounds;
@@ -65,17 +67,16 @@ class World {
     draw() {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);  // leert das Canvas, so daß bei einer Bewegung die alte Darstellung verschwindet
 
-        this.ctx.translate(this.cameraX, 0);             // Bewegen des Hintergrunds (d.h. in diesem Fall des gesamten Canvas)
+        this.ctx.translate(this.cameraX, 0);             // Moving of the background, that is the whole canvas in this case
 
-        // Hintergrund-Ebenen (Luft, Wolken, Gelände)
+        // Background layers (Air, Clouds, Terrain)
         this.addObjArrayToCanvas(this.air);
-        this.addObjArrayToCanvas(this.level.clouds);      // Die Wolken bewegen sich unabhängig von der Spielfigur
-        this.addObjArrayToCanvas(this.level.backgrounds); // Das Gelände bewegt sich mit der Spielfigur
+        this.addObjArrayToCanvas(this.level.clouds);      // The clouds move separate from the moving of the character
+        this.addObjArrayToCanvas(this.level.backgrounds); // The terrain is moving accoring to the moving of the character
         this.level.backgrounds.forEach(bg => bg.world = this);
         
-        // Sammeln
+        // Collectable objects
         this.addObjArrayToCanvas(this.level.coins);
-        // this.addObjArrayToCanvas(this.level.bottles);
         for (let i = 0; i < this.level.bottles.length; i++) {
             this.addToCanvas(this.level.bottles[i]);
         }
@@ -94,6 +95,10 @@ class World {
         this.addToCanvas(this.statusBarBottles);
         this.addToCanvas(this.statusBarBoss);
         this.ctx.translate(this.cameraX, 0); // Erneutes bewegen des Hintergrunds
+
+        // End game images
+        this.addToCanvas(this.wonImg);
+        this.addToCanvas(this.lostImg);
 
         this.ctx.translate(-this.cameraX, 0);              // Bewegen des Hintergrunds (d.h. in diesem Fall des gesamten Canvas)
 
@@ -114,6 +119,10 @@ class World {
         }
         if (movObj instanceof Bottle || movObj instanceof Coin) {
             if (!movObj.isCollected) {
+                movObj.draw(this.ctx);
+            }
+        } else if (movObj instanceof EndGameImage) {
+            if (movObj.isVisible) {
                 movObj.draw(this.ctx);
             }
         } else {
@@ -204,6 +213,10 @@ class World {
                     enemies[0].hit(10);       // Calls the hit-function of the boss
                     this.statusBarBoss.setPercentage('boss', enemies[0].energy);
                     bottle.startSplashAnimation();
+                    if (enemies[0].energy <= 0) {
+                        this.wonImg.posX = this.character.posX - 100;
+                        this.wonImg.isVisible = true;
+                    }
                 }
             }
         });

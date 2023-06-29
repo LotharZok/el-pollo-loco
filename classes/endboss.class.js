@@ -16,8 +16,11 @@ class Endboss extends MovableObject {
     bossInterval;
     dyingCounter = 0;
     hasDied = false;
-    // isHurt = false;
-    // isDead = false;
+    hastaSound = new Audio('audio/hasta-la-vista.mp3');
+    hurtSound = new Audio('audio/endboss-hurt.mp3');
+    hasPlayedSound = false;
+
+    // world;
 
     IMAGES_WALKING = [
         './img/4_enemie_boss_chicken/1_walk/G1.png',
@@ -84,8 +87,19 @@ class Endboss extends MovableObject {
         this.bossInterval = setInterval(() => {
             if (this.isDead()) {
                 this.playAnimationOnce(this.IMAGES_DYING);
+                // this.hastaSound.volume = 1.5;
+                if (!this.hasPlayedSound) {
+                    this.hastaSound.volume = 0.5;
+                    this.hastaSound.loop = false;
+                    this.hastaSound.play();
+                    this.hasPlayedSound = true;
+                };
+                // this.world.wonImg.posX = this.posX - 100;
+                // this.world.wonImg.isVisible = true;
             } else if (this.isHurt()) {
                 this.playAnimation(this.IMAGES_HURT);
+                this.hurtSound.loop = false;
+                this.hurtSound.play();
             } else {
                 this.playAnimation(this.currentMovingArray);
             }

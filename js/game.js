@@ -31,11 +31,13 @@ function hideWelcome() {
 }
 
 function showInformation() {
-    document.getElementById('howToPlay').classList.remove('d-none');
+    document.getElementById('infoScreen').classList.toggle('d-none');
+    document.getElementById('infoScreen').classList.toggle('infoScreen');
 }
 
 function hideInformation() {
-    document.getElementById('howToPlay').classList.add('d-none');
+    document.getElementById('infoScreen').classList.toggle('d-none');
+    document.getElementById('infoScreen').classList.toggle('infoScreen');
 }
 
 

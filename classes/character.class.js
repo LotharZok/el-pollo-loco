@@ -10,15 +10,9 @@ class Character extends MovableObject {
     };
     // Startposition ist immer gleich
     posX = 0;
-    posY = 210; //210;
-    // JSON-Objekte für die Bewegungen
+    posY = 210;
     speed = 20;
-    // moveWalking = {};
-    // moveJumping = {};
-    // moveIdling = {};
-    // moveSleeping = {};
-    // moveHurting = {};
-    // moveDying = {};
+
     // Wie lange ist Pepe schon im Wartemodus?
     idlingCounter = 0;
     // Ist Pepe gestorben?
@@ -157,6 +151,8 @@ class Character extends MovableObject {
                 } else {
                     clearInterval(this.keyInterval);
                     clearInterval(this.characterInterval);
+                    this.world.lostImg.posX = this.posX - 100;
+                    this.world.lostImg.isVisible = true;
                 }
             } else if (this.isHurt()) {
                 this.playAnimation(this.IMAGES_HURTING); // show hurting animation

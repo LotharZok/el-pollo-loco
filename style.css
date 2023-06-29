@@ -1,3 +1,4 @@
+/* Fonts for this game */
 @font-face {
     font-family: 'riogrande';
     src: url('fonts/riogrande.ttf');
@@ -7,6 +8,8 @@
     src: url('fonts/ifc-los-banditos.ttf');
 }
 
+
+/* Standard styles */
 body {
     margin: 0;
     height: 100vh;
@@ -26,31 +29,46 @@ h1 {
     margin-block-start: 0;
     margin-block-end: 0;
 }
+.d-none {
+    display: none;
+}
 #canvas {
     background-color: black;
     border: 2px solid black;
 }
+
+
+/* Styles for the welcome screen */
 #welcomeScreen img {
     width: 1440px;
     height: 810px;
     cursor: pointer;
     border: 2px solid black;
 }
-.d-none {
-    display: none;
-}
 #clickMessage,
 #infoClickMessage {
     font-size: 20px;
-    /* font-weight: bold; */
     letter-spacing: 2px;
     margin-top: -35px;
     color: rgba(255, 229, 86, 0.8);
     cursor: pointer;
 }
 
-#howToPlay {
+
+/* Styles for the information screen */
+/* --> see also style for #infoClickMessage above */
+#infoScreen {
     position: absolute;
+    width: 100%;
+    height: 100vh;
+    background-color: rgba(0,0,0,0.4);
+}
+.infoScreen {
+        display: flex;
+    justify-content: center;
+    align-items: center;
+}
+#howToPlay {
     background-color: rgba(255, 175, 34, 0.7);
     padding: 20px;
     border: 1px solid darkgrey;
@@ -73,9 +91,7 @@ h1 {
     font-family: 'losbanditos', Arial, Helvetica, sans-serif;
     font-size: 16px;
     margin-top: 20px;
-
     cursor: pointer;
-
     border: none;
     background-color: transparent;
 }
