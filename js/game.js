@@ -24,7 +24,9 @@ function welcomeToGame() {
 function hideWelcome() {
     welcomeSound.pause();
     document.getElementById('canvas').classList.remove('d-none');
+    document.getElementById('infoClickMessage').classList.remove('d-none');
     document.getElementById('welcomeScreen').classList.add('d-none');
+    document.getElementById('clickMessage').classList.add('d-none');
     init();
 }
 

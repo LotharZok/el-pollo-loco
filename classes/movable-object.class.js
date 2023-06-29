@@ -22,12 +22,34 @@ class MovableObject extends DrawableObject {
         super();
     }
 
+
+    /**
+     * Plays an animation loop.
+     * 
+     * @param {Array} imgArray - The Array that contains the image paths for this loop
+     */
     playAnimation(imgArray) {
         let i = this.currentImage % imgArray.length;  // Aber currentImage läuft doch dann irgendwann über... auch wenn 9 Billionen lange dauert
         let path = imgArray[i];
         this.img.src = this.imageCache[path];
         this.currentImage++;
         // if (this.currentImage == this.IMAGES_WALKING.length) this.currentImage = 0
+    }
+
+
+    /**
+     * Plays an animation loop, but only once. If all images are run, the last in the loop will stay, that means the last picture will be shown on and on.
+     * 
+     * @param {Array} imgArray - The Array that contains the image paths for this loop
+     */
+    playAnimationOnce(imgArray) {
+        let i = this.currentImage % imgArray.length;  // Aber currentImage läuft doch dann irgendwann über... auch wenn 9 Billionen lange dauert
+        let path = imgArray[i];
+        this.img.src = this.imageCache[path];
+        this.currentImage++;
+        if (this.currentImage >= imgArray.length) {
+            this.currentImage = imgArray.length - 1;
+        }
     }
 
     // Bessere Formel zur Kollisionsberechnung (Genauer)
