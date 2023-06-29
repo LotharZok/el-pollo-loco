@@ -1,22 +1,37 @@
 class Coin extends MovableObject {
-    // Größe ist immer gleich
-    width = 150;
-    height = 150;
+
+    
+    /**
+     * Global variable
+     */
+    width = 150;                    // Standard width of a coin image
+    height = 150;                   // Standard height of a coin image
     offset = {
         top: 55,
         left: 55,
         right: 55,
         bottom: 55
-    }
-    yValues = [290, 420, 550, 680];
-    moveWalking = {};
-    isCollected = false;
+    }                               // Offset values for a coin image
+    yValues = [290, 420, 550, 680]; // Possible values for positioning on the Y-axis
+    isCollected = false;            // Default value: On creation a coin is not yet collected
 
-    IMAGES_WALKING = [
+
+    /**
+     * Image arrays for specified movements of a bottle
+     */
+    IMAGES_PULSATING = [
         'img/8_coin/coin_1.png',
         'img/8_coin/coin_2.png',
     ];
 
+
+    /**
+     * Create a new coin object and loads the images for this object.
+     * Also starts the animation (pulsing).
+     * 
+     * @param {Integer} newPosY - The position on the Y-axis for the new object
+     * @param {Integer} newPosX - The position on the X-axis for the new object
+     */
     constructor(newPosY, newPosX) {
         super().loadImage('img/8_coin/coin_1.png')
 
@@ -24,19 +39,17 @@ class Coin extends MovableObject {
         this.posY = this.yValues[newPosY];
         this.speed = 0;
 
-        // Bilder laden : Gehen
-        this.loadImages(this.IMAGES_WALKING);
-        this.moveWalking = this.imageCache;
-        
+        this.loadImages(this.IMAGES_PULSATING);
         this.animate();
     }
 
-    animate() {
-        this.moveLeft();
 
+    /**
+     * Starts the interval with the animation of the current object.
+     */
+    animate() {
         setInterval(() => {
-            this.playAnimation(this.IMAGES_WALKING);
+            this.playAnimation(this.IMAGES_PULSATING);
         }, 175)
-        
     }
 }

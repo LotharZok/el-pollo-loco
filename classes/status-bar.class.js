@@ -1,5 +1,9 @@
 class StatusBar extends DrawableObject {
 
+
+    /**
+     * Image arrays for specified movements (status) of the status bars
+     */
     IMAGES_HEALTH = [
         'img/7_statusbars/1_statusbar/2_statusbar_health/green/0.png',
         'img/7_statusbars/1_statusbar/2_statusbar_health/green/20.png',
@@ -33,11 +37,22 @@ class StatusBar extends DrawableObject {
         'img/7_statusbars/2_statusbar_endboss/100.png'
     ]
     
+
+    /** 
+     * Global Variables
+     */
     width = 298;
     height = 79;
     posX = 30;
     percentage = 100;
 
+
+    /**
+     * Creates a status bar object of the specified type. Sets its vertical position and loads necessary images.
+     * Sets also the initial value for the stats bar percentag.
+     * 
+     * @param {String} type - The type of the status bar that should be created.
+     */
     constructor(type) {
         super();
         switch (type) {
@@ -70,8 +85,25 @@ class StatusBar extends DrawableObject {
         }
     }
 
+
+    /**
+     * Sets the percentage of the current object to the passed value and calls the function for setting the matching image.
+     * 
+     * @param {String} type - The type of the status bar
+     * @param {Integer} pc - The new percentage value for the current object
+     */
     setPercentage(type, pc) {
         this.percentage = pc;
+        this.setImagePath(type);
+    }
+
+
+    /**
+     * Sets the matching image to the percentage of the current object.
+     * 
+     * @param {String} type - The type of the status bar
+     */
+    setImagePath(type) {
         let imagePath;
         switch (type) {
             case 'health':
@@ -89,10 +121,15 @@ class StatusBar extends DrawableObject {
             default:
                 break;
         }
-        // let imagePath = this.IMAGES_HEALTH[this.getImageIndex()];
-        this.img.src = this.imageCache[imagePath];  // SRC !!! (siehe Ticket)
+        this.img.src = this.imageCache[imagePath];
     }
 
+
+    /**
+     * Gives the index of the matching image inside the status bar image array of the current object.
+     * 
+     * @returns The index of the matching image inside the image array
+     */
     getImageIndex() {
         if (this.percentage >= 90) {
             return 5;

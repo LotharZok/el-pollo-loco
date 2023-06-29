@@ -133,7 +133,7 @@ class MovableObject extends DrawableObject {
 
 
     /**
-     * Lets the current object jump through assigning a speed value.
+     * Lets the current object jump through assigning a speed value for the Y-axis.
      */
     jump() {
         this.speedY = 30;
@@ -141,7 +141,7 @@ class MovableObject extends DrawableObject {
 
 
     /**
-     * Lets the current object move to left.
+     * Specifies the speed of the object to the left side.
      */
     moveLeft() {
         this.posX -= this.speed;
@@ -149,7 +149,7 @@ class MovableObject extends DrawableObject {
 
 
     /**
-     * Lets the current object move to right.
+     * Specifies the speed of the object to the right side.
      */
     moveRight() {
         this.posX += this.speed;

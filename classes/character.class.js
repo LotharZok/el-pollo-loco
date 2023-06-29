@@ -120,7 +120,7 @@ class Character extends MovableObject {
             if (this.world.keyboard.SPACE && !this.isAboveGround()) {  // Jump
                 this.jump();
                 this.jumpingSound.play();
-            }
+            };
             if (this.world.keyboard.THROW) {
                 this.world.keyboard.THROW = false;
                 this.idlingCounter = 0;
@@ -133,7 +133,7 @@ class Character extends MovableObject {
                     let newValue = this.world.statusBarBottles.percentage -= (100/this.world.level.bottles.length);
                     this.world.statusBarBottles.setPercentage('bottles', newValue);
                 }
-            }
+            };
             this.world.cameraX = -(this.posX) + 100;  // Bewegung der (Hintergrund)-Welt (Pepes Position bleibt dadurch auf dem Screen die gleiche).
         }, 75);
 

@@ -1,22 +1,36 @@
 class Bottle extends MovableObject {
 
-    width = 100;
-    height = 100;
+
+    /**
+     * Global variables
+     */
+    posX;                // Variable for the horizontal position. Will be calculated on creation of an object.
+    posY;                // Variable for the vertical position. Will be calculated on creation of an object.
+    width = 100;         // Standard width of a bottle image
+    height = 100;        // Standard height of a bottle image
     offset = {
         top: 25,
         left: 50,
         right: 25,
         bottom: 15
-    };
-    posY = 650;
-    posX = 500;
-    isCollected = false;
-    hasHitBoss = false;
-    throwInterval;
-    splashInterval;
-    splashCounter = 0;
-    bottleBreakSound = new Audio('audio/bottle-break-2.mp3');
+    };                   // Offset values for a bottle image
+    isCollected = false; // Default value: On creation a bottle is not yet collected
+    hasHitBoss = false;  // Default value
+    throwInterval;       // Variable for the interval id when throwing a bottle
+    splashInterval;      // Variable for the interval id when a bottle hits the end boss
+    splashCounter = 0;   // Counter for the images. Used for stopping animation, that is stopping a loop
 
+
+    /**
+     * Sounds for the bottles
+     */
+    bottleBreakSound = new Audio('audio/bottle-break-2.mp3');
+    throwingSound = new Audio('audio/bottle-swish.mp3');
+
+
+    /**
+     * Image arrays for specified movements of a bottle
+     */
     bottleGroundImages = [
         'img/6_salsa_bottle/1_salsa_bottle_on_ground.png',
         'img/6_salsa_bottle/2_salsa_bottle_on_ground.png'
@@ -36,8 +50,14 @@ class Bottle extends MovableObject {
         'img/6_salsa_bottle/bottle_rotation/bottle_splash/6_bottle_splash.png'
     ];
 
-    throwingSound = new Audio('audio/bottle-swish.mp3');
 
+    /**
+     * Creates a new bottle object and sets its starting some starting values.
+     * By random it is chosen whether a left-angled or a right-angled bottle will be created.
+     * Based on this decision some values are set. Also a horizontal position is set.
+     * 
+     * @param {Integer} newPosX - The value for the horizontal position for the object to be created.
+     */
     constructor(newPosX) {
         super();
         let leftRight = Math.floor(Math.random()*2);
@@ -52,6 +72,15 @@ class Bottle extends MovableObject {
         this.speed = 0;
     }
 
+
+    /**
+     * Starts the throw animation of a bottle.
+     * Starting point is dependent on the position of Pepe at this moment. Also the direction is dependent on Pepes viewing direction.
+     * 
+     * @param {Integer} x - The horizontal starting position of the bottle to be thrown
+     * @param {Integer} y - The vertical starting position of the bottle to be thrown
+     * @param {Boolean} otherDirection - Defines in which direction the bottle will be thrown
+     */
     throw(x, y, otherDirection) {
         this.throwingSound.play();
         super.loadImage(this.bottleRotationImages[0]);
@@ -67,6 +96,10 @@ class Bottle extends MovableObject {
         }, 25);
     }
 
+
+    /**
+     * Starts the splash animation when a bottle hits the end boss.
+     */
     startSplashAnimation() {
         clearInterval(this.throwInterval);
         this.loadImages(this.bottleSplashImages);
@@ -80,7 +113,4 @@ class Bottle extends MovableObject {
         }, 25);
     }
 
-    animate() {
-
-    }
 }
