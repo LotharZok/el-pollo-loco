@@ -30,6 +30,14 @@ function hideWelcome() {
     init();
 }
 
+function showInformation() {
+    document.getElementById('howToPlay').classList.remove('d-none');
+}
+
+function hideInformation() {
+    document.getElementById('howToPlay').classList.add('d-none');
+}
+
 
 /**
  * Registration of an event listener (KEYDOWN) to react on pressing certain keys
@@ -78,6 +86,8 @@ window.addEventListener('keydown', (e) => {
             keyboard.THROW = false; //true;
             break;
 
+        case 'Escape':
+            keyboard.ESC = false;
         default:
             break;
     }
@@ -125,6 +135,8 @@ window.addEventListener('keyup', (e) => {
             keyboard.THROW = true; // false;
             break;
 
+        case 'Escape':
+            keyboard.ESC = true;
         default:
             break;
     }

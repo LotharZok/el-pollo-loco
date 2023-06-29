@@ -45,6 +45,37 @@ h1 {
     /* font-weight: bold; */
     letter-spacing: 2px;
     margin-top: -35px;
-    color: white;
+    color: rgba(255, 229, 86, 0.8);
     cursor: pointer;
+}
+
+#howToPlay {
+    position: absolute;
+    background-color: rgba(255, 175, 34, 0.7);
+    padding: 20px;
+    border: 1px solid darkgrey;
+    border-radius: 20px;
+    font-size: 1.5em;
+}
+#howToPlay h2 {
+    text-align: center;
+}
+#howToPlay table {
+    margin-bottom: 10px;
+}
+#howToPlay td {
+    padding-right: 10px;
+}
+.infoButton {
+    text-align: center;
+}
+#btnCloseInfo {
+    font-family: 'losbanditos', Arial, Helvetica, sans-serif;
+    font-size: 16px;
+    margin-top: 20px;
+
+    cursor: pointer;
+
+    border: none;
+    background-color: transparent;
 }

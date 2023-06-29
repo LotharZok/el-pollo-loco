@@ -34,12 +34,41 @@
     <div id="welcomeScreen">
         <img src="./img/9_intro_outro_screens/start/startscreen_2.png" alt="Welcome" onclick="hideWelcome()">
     </div>
-    <div id="clickMessage">
+    <div id="clickMessage" onclick="hideWelcome()">
         Click on picture to start game
     </div>
     <canvas id="canvas" width="1440px" height="810px" class="d-none"></canvas>
     <div id="infoClickMessage" class="d-none" onclick="showInformation()">
         Click here for information
+    </div>
+
+    <div id="howToPlay" class="d-none">
+        <h2>How To Play:</h2>
+        <table>
+            <tr>
+                <td>Walk Left</td>
+                <td>Push Key A or Arrow Key Left or Number 4 on Numeric Keypad</td>
+            </tr>
+            <tr>
+                <td>Walk Right</td>
+                <td>Push Key D or Arrow Key Right or Number 6 on Numeric Keypad</td>
+            </tr>
+            <tr>
+                <td>Jump</td>
+                <td>Push Space Bar</td>
+            </tr>
+            <tr>
+                <td>Throw Bottle</td>
+                <td>Push Key Q or Key E or Enter or Enter on Numeric Keypad</td>
+            </tr>
+        </table>
+        <div>Collect Bottles and Coins by walking over them or jump to them when above</div>
+        <div>Kill chickens by jumping on them</div>
+        <div>Kill the large chicken a.k.a. the end boss by throwing at least 10 bottles on it</div>
+        <div class="infoButton">
+            <button id="btnCloseInfo" onclick="hideInformation()">) Click here to close information (</button>
+        </div>
+        
     </div>
     
 </body>

@@ -1,23 +1,23 @@
 class MovableObject extends DrawableObject {
 
-    speed = 0.15;
-    otherDirection = false;
+    speed = 0.15;            // Speed for moving when not stated in classes
+    otherDirection = false;  // Needed when Pepe should move in left direction.
+    speedY = 0;              // Vertical speed, needed e.g. for jumping
+    acceleration = 2;        // Acceleration when jumping or falling
+    energy = 100;            // Gets reduced when a collision occures
+    lastHit = 0;             // Will be set when hitted. Needed for hurting animation for one second.
 
-    // Jump and fall down
-    speedY = 0;
-    acceleration = 2;
-
-    energy = 100;  // Gets reduced when a collision occures
-    lastHit = 0;
-
-    // Offset for Collisions
     offset = {
         top: 0,
         left: 0,
         right: 0,
         bottom: 0
-    };
+    };                       // Offset for Collisions, will be set for every type of object in its according class.
 
+
+    /**
+     * Constructor for current class.
+     */
     constructor() {
         super();
     }
@@ -52,7 +52,13 @@ class MovableObject extends DrawableObject {
         }
     }
 
-    // Bessere Formel zur Kollisionsberechnung (Genauer)
+
+    /**
+     * Checks if an object collides with an object given by the parameter.
+     * 
+     * @param {Object} movObj - An object of a class that extends the class MovableObject
+     * @returns True or False - There is a collision or not
+     */
     isColliding(movObj) {
         return (
             this.posX + this.width - this.offset.right > movObj.posX + movObj.offset.left &&
@@ -62,6 +68,12 @@ class MovableObject extends DrawableObject {
         );
     }
 
+
+    /**
+     * Deducts the given amount from the energy of the current object.
+     * 
+     * @param {Integer} amount - The amount that will be deducted from the energy of the object.
+     */
     hit(amount) {
         this.energy -= amount;
         if (this.energy < 0) {
@@ -71,15 +83,31 @@ class MovableObject extends DrawableObject {
         };
     }
 
+
+    /**
+     * Checks if the hurting of the current object was more than a second ago.
+     * 
+     * @returns True of False - The hurting of the current object war more than a second ago.
+     */
     isHurt() {
         let timePassed = new Date().getTime() - this.lastHit; // in milliseconds
         return timePassed < 1000; // last hit is more than one second old (1000 milliseconds)
     }
 
+
+    /**
+     * Checks if the current object is dead (energy is equal to or below 0).
+     * 
+     * @returns True or False - The current object is dead or not.
+     */
     isDead() {
         return this.energy <= 0;
     }
 
+
+    /**
+     * Applies gravity to the current object, that means it can fall down now.
+     */
     applyGravity() {
         setInterval(() => {
             if (this.isAboveGround() || this.speedY > 0) {
@@ -89,6 +117,12 @@ class MovableObject extends DrawableObject {
         }, 1000 / 25)
     }
 
+
+    /**
+     * Checks if the current object is above ground or not.
+     * 
+     * @returns True or False - The current object is above ground or not.
+     */
     isAboveGround() {
         if (this instanceof Bottle) {  // Bottles should always fall down, even outside the canvas
             return true;
@@ -97,14 +131,26 @@ class MovableObject extends DrawableObject {
         }
     }
 
+
+    /**
+     * Lets the current object jump through assigning a speed value.
+     */
     jump() {
         this.speedY = 30;
     }
 
+
+    /**
+     * Lets the current object move to left.
+     */
     moveLeft() {
         this.posX -= this.speed;
     }
 
+
+    /**
+     * Lets the current object move to right.
+     */
     moveRight() {
         this.posX += this.speed;
     }
