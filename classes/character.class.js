@@ -151,8 +151,6 @@ class Character extends MovableObject {
                 } else {
                     clearInterval(this.keyInterval);
                     clearInterval(this.characterInterval);
-                    this.world.lostImg.posX = this.posX - 100;
-                    this.world.lostImg.isVisible = true;
                 }
             } else if (this.isHurt()) {
                 this.playAnimation(this.IMAGES_HURTING); // show hurting animation

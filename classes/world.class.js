@@ -168,6 +168,10 @@ class World {
                 } else if (!enemy.hasDied) {
                     this.character.hit(2);
                     this.statusBarHealth.setPercentage('health', this.character.energy);
+                    if (this.character.hasDied) {  // Check if character is dead
+                        this.lostImg.posX = this.character.posX - 100;
+                        this.lostImg.isVisible = true;
+                    }
                 }
             }
         });
@@ -213,7 +217,7 @@ class World {
                     enemies[0].hit(10);       // Calls the hit-function of the boss
                     this.statusBarBoss.setPercentage('boss', enemies[0].energy);
                     bottle.startSplashAnimation();
-                    if (enemies[0].energy <= 0) {
+                    if (enemies[0].energy <= 0) {  // Check if endboss is dead
                         this.wonImg.posX = this.character.posX - 100;
                         this.wonImg.isVisible = true;
                     }
