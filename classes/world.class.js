@@ -169,8 +169,7 @@ class World {
                     this.character.hit(2);
                     this.statusBarHealth.setPercentage('health', this.character.energy);
                     if (this.character.hasDied) {  // Check if character is dead
-                        this.lostImg.posX = this.character.posX - 100;
-                        this.lostImg.isVisible = true;
+                        this.endGame('lost');
                     }
                 }
             }
@@ -218,11 +217,30 @@ class World {
                     this.statusBarBoss.setPercentage('boss', enemies[0].energy);
                     bottle.startSplashAnimation();
                     if (enemies[0].energy <= 0) {  // Check if endboss is dead
-                        this.wonImg.posX = this.character.posX - 100;
-                        this.wonImg.isVisible = true;
+                        this.endGame('won');
                     }
                 }
             }
+        });
+    }
+
+
+    /**
+     * Ends the game. Displays a final image dependent on win or loss of Pepe.
+     * Stops also movement on X-Axis of all enemies. That way Pepe can't be killed after he has killed the end boss.
+     * 
+     * @param {String} wonOrLost - Does the game end with a win or has Pepe lost
+     */
+    endGame(wonOrLost) {
+        if (wonOrLost == 'won') {
+            this.wonImg.posX = this.character.posX - 100;
+            this.wonImg.isVisible = true;
+        } else {
+            this.lostImg.posX = this.character.posX - 100;
+            this.lostImg.isVisible = true;
+        }
+        this.level.enemies.forEach((enemy) => {
+            enemy.speed = 0;
         });
     }
 }
