@@ -38,7 +38,6 @@ h1 {
 #canvas {
     background-color: black;
     border: 2px solid black;
-    /* display: block; */
 }
 
 
@@ -69,7 +68,7 @@ h1 {
     background-color: rgba(0,0,0,0.4);
 }
 .infoScreen {
-        display: flex;
+    display: flex;
     justify-content: center;
     align-items: center;
 }
@@ -102,7 +101,31 @@ h1 {
 }
 
 
-/* Small Screens */
+/* Styles for mobile buttons */
+#mobileButtons {
+    width: 100%;
+    max-width: 1440px;
+    margin-top: -50px;
+    display: flex;
+    justify-content: space-between;
+}
+#mobileButtonsLeftSide {
+    margin-left: 15px;
+    display: flex;
+    gap: 20px;
+}
+#mobileButtonsRightSide {
+    margin-right: 15px;
+    display: flex;
+    gap: 20px;
+}
+.mobileBtn {
+    width: 45px;
+    height: 45px;
+}
+
+
+/* Styles for small screens */
 @media only screen and (max-width: 1440px) {
     canvas {
         display: block;
@@ -122,7 +145,33 @@ h1 {
     h1 {
         display: none;
     }
+    body {
+        height: auto;
+    }
+}
+
+@media (max-height: 810px) {
     #welcomeScreen img {
+        position: relative;
+        top: 0;
         height: 100vh;
+    }
+}
+
+@media (max-width: 500px) {
+    #clickMessage,
+    #infoClickMessage,
+    #restartClickMessage {
+        font-size: 16px;
+        margin-top: -25px;
+    }
+}
+
+@media (max-width: 350px) {
+    #clickMessage,
+    #infoClickMessage,
+    #restartClickMessage {
+        font-size: 12px;
+        margin-top: -17px;
     }
 }

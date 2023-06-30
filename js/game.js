@@ -13,6 +13,7 @@ let welcomeSound = new Audio('audio/start-screen-sound.mp3');
 function welcomeToGame() {
     welcomeSound.loop = true;
     welcomeSound.play();
+    this.bindBtnPressEvents()
 }
 
 
@@ -160,3 +161,42 @@ window.addEventListener('keyup', (e) => {
             break;
     }
 });
+
+
+function bindBtnPressEvents() {
+    document.getElementById('btnLeft').addEventListener('touchstart', (e) => {
+        e.preventDefault();
+        keyboard.LEFT = true;
+    });
+    document.getElementById('btnLeft').addEventListener('touchend', (e) => {
+        e.preventDefault();
+        keyboard.LEFT = false;
+    });
+
+    document.getElementById('btnRight').addEventListener('touchstart', (e) => {
+        e.preventDefault();
+        keyboard.RIGHT = true;
+    });
+    document.getElementById('btnRight').addEventListener('touchend', (e) => {
+        e.preventDefault();
+        keyboard.RIGHT = false;
+    });
+
+    document.getElementById('btnJump').addEventListener('touchstart', (e) => {
+        e.preventDefault();
+        keyboard.SPACE = true;
+    });
+    document.getElementById('btnJump').addEventListener('touchend', (e) => {
+        e.preventDefault();
+        keyboard.SPACE = false;
+    });
+
+    document.getElementById('btnThrow').addEventListener('touchstart', (e) => {
+        e.preventDefault();
+        keyboard.THROW = true;
+    });
+    document.getElementById('btnThrow').addEventListener('touchend', (e) => {
+        e.preventDefault();
+        keyboard.THROW = false;
+    });
+}
