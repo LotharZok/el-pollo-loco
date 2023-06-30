@@ -8,19 +8,17 @@ let welcomeSound = new Audio('audio/start-screen-sound.mp3');
 
 
 /**
- * Initialisation of the game
+ * Starts the welcome audio.
  */
-function init() {
-    canvas = document.getElementById('canvas');
-    world = new World(canvas, keyboard);
-}
-
-
 function welcomeToGame() {
     welcomeSound.loop = true;
     welcomeSound.play();
 }
 
+
+/**
+ * Hides the welcome screen and starts the init function to start the game.
+ */
 function hideWelcome() {
     welcomeSound.pause();
     document.getElementById('canvas').classList.remove('d-none');
@@ -31,16 +29,37 @@ function hideWelcome() {
     init();
 }
 
+
+/**
+ * Initialisation of the game. Called when welcome Screen is closed.
+ */
+function init() {
+    canvas = document.getElementById('canvas');
+    world = new World(canvas, keyboard);
+}
+
+
+/**
+ * Displays the information screen.
+ */
 function showInformation() {
     document.getElementById('infoScreen').classList.toggle('d-none');
     document.getElementById('infoScreen').classList.toggle('infoScreen');
 }
 
+
+/**
+ * Hides the information screen.
+ */
 function hideInformation() {
     document.getElementById('infoScreen').classList.toggle('d-none');
     document.getElementById('infoScreen').classList.toggle('infoScreen');
 }
 
+
+/**
+ * Restarts a game, that is, is reloads the website.
+ */
 function restartGame() {
     location.reload();
 }
@@ -50,38 +69,32 @@ function restartGame() {
  * Registration of an event listener (KEYDOWN) to react on pressing certain keys
  */
 window.addEventListener('keydown', (e) => {
-    // console.log(e);
     switch (e.code) {
         case 'Space':
-            // console.log('Leertaste : true');
             keyboard.SPACE = true;
             break;
 
         case 'KeyW':
         case 'ArrowUp':
         case 'Numpad8':
-            // console.log('nach oben');
             keyboard.UP = true;
             break;
 
         case 'KeyA':
         case 'ArrowLeft':
         case 'Numpad4':
-            // console.log('nach links');
             keyboard.LEFT = true;
             break;
 
         case 'KeyS':
         case 'ArrowDown':
         case 'Numpad2':
-            // console.log('nach unten');
             keyboard.DOWN = true;
             break;
 
         case 'KeyD':
         case 'ArrowRight':
         case 'Numpad6':
-            // console.log('nach rechts');
             keyboard.RIGHT = true;
             break;
 
@@ -89,8 +102,7 @@ window.addEventListener('keydown', (e) => {
         case 'KeyQ':
         case 'Enter':
         case 'NumpadEnter':
-            // console.log('werfen');
-            keyboard.THROW = false; //true;
+            keyboard.THROW = false;
             break;
 
         case 'Escape':
@@ -139,7 +151,7 @@ window.addEventListener('keyup', (e) => {
         case 'KeyQ':
         case 'Enter':
         case 'NumpadEnter':
-            keyboard.THROW = true; // false;
+            keyboard.THROW = true;
             break;
 
         case 'Escape':

@@ -1,6 +1,7 @@
 class Endboss extends MovableObject {
-
-    // Größe ist immer gleich
+    /**
+     * Global variables
+     */
     width = 522;
     height = 609;
     offset = {
@@ -16,12 +17,19 @@ class Endboss extends MovableObject {
     bossInterval;
     dyingCounter = 0;
     hasDied = false;
+
+
+    /**
+     * Declaration of several sound used for the endboss
+     */
     hastaSound = new Audio('audio/hasta-la-vista.mp3');
     hurtSound = new Audio('audio/endboss-hurt.mp3');
     hasPlayedSound = false;
 
-    // world;
 
+    /**
+     * Arrays with the images for moving the endboss
+     */
     IMAGES_WALKING = [
         './img/4_enemie_boss_chicken/1_walk/G1.png',
         './img/4_enemie_boss_chicken/1_walk/G2.png',
@@ -58,27 +66,29 @@ class Endboss extends MovableObject {
         './img/4_enemie_boss_chicken/5_dead/G25.png',
         './img/4_enemie_boss_chicken/5_dead/G26.png'
     ];
-
     currentMovingArray = [];
 
     constructor() {
         super();
+        
+        this.loadImageArrays();
+        this.currentMovingArray = this.IMAGES_ALERT;
+        
+        // this.speed = 0.05 + Math.random() * 0.15;  // Zufällige Geschwindigkeit zwischen 0.05 und 0.2 (er soll ja mehr oder weniger am Ort bleiben)
+        this.speed = 0; // Soll erstmal am gleichen Platz bleiben
+        this.posX = 3000;
+        this.posY = 200;
+
+        this.animate();
+    }
+
+    loadImageArrays() {
         this.loadImage(this.IMAGES_ALERT[0]);
         this.loadImages(this.IMAGES_WALKING);
         this.loadImages(this.IMAGES_ALERT);
         this.loadImages(this.IMAGES_ATTACKING);
         this.loadImages(this.IMAGES_HURT);
         this.loadImages(this.IMAGES_DYING);
-        // this.moveWalking = this.imageCache;
-        this.currentMovingArray = this.IMAGES_ALERT;
-        
-        // this.speed = 0.05 + Math.random() * 0.15;  // Zufällige Geschwindigkeit zwischen 0.05 und 0.2 (er soll ja mehr oder weniger am Ort bleiben)
-        this.speed = 0; // Soll erstmal am gleichen Platz bleiben
-        this.posX = 3000;
-        // this.posX = this.world.level.endX;
-        this.posY = 200;
-
-        this.animate();
     }
 
     animate() {
@@ -87,15 +97,12 @@ class Endboss extends MovableObject {
         this.bossInterval = setInterval(() => {
             if (this.isDead()) {
                 this.playAnimationOnce(this.IMAGES_DYING);
-                // this.hastaSound.volume = 1.5;
                 if (!this.hasPlayedSound) {
                     this.hastaSound.volume = 0.5;
                     this.hastaSound.loop = false;
                     this.hastaSound.play();
                     this.hasPlayedSound = true;
                 };
-                // this.world.wonImg.posX = this.posX - 100;
-                // this.world.wonImg.isVisible = true;
             } else if (this.isHurt()) {
                 this.playAnimation(this.IMAGES_HURT);
                 this.hurtSound.loop = false;
