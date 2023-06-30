@@ -242,5 +242,7 @@ class World {
         this.level.enemies.forEach((enemy) => {
             enemy.speed = 0;
         });
+        document.getElementById('infoClickMessage').classList.add('d-none');
+        document.getElementById('restartClickMessage').classList.remove('d-none');
     }
 }

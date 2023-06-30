@@ -27,6 +27,7 @@ function hideWelcome() {
     document.getElementById('infoClickMessage').classList.remove('d-none');
     document.getElementById('welcomeScreen').classList.add('d-none');
     document.getElementById('clickMessage').classList.add('d-none');
+    document.getElementById('restartClickMessage').classList.add('d-none');
     init();
 }
 
@@ -38,6 +39,11 @@ function showInformation() {
 function hideInformation() {
     document.getElementById('infoScreen').classList.toggle('d-none');
     document.getElementById('infoScreen').classList.toggle('infoScreen');
+}
+
+function restartGame() {
+    location.reload();
+    hideWelcome();
 }
 
 

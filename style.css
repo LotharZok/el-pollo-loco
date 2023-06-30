@@ -35,6 +35,7 @@ h1 {
 #canvas {
     background-color: black;
     border: 2px solid black;
+    /* display: block; */
 }
 
 
@@ -46,7 +47,8 @@ h1 {
     border: 2px solid black;
 }
 #clickMessage,
-#infoClickMessage {
+#infoClickMessage,
+#restartClickMessage {
     font-size: 20px;
     letter-spacing: 2px;
     margin-top: -35px;
@@ -94,4 +96,23 @@ h1 {
     cursor: pointer;
     border: none;
     background-color: transparent;
+}
+
+
+/* Small Screens */
+@media only screen and (max-width: 1440px) {
+    canvas {
+        display: block;
+        width: 100%;
+    }
+}
+
+@media only screen and (max-height: 810px) {
+    canvas {
+        display: block;
+        height: 100vh;
+    }
+    h1 {
+        display: none;
+    }
 }
