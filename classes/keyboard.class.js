@@ -1,5 +1,8 @@
 class Keyboard {
 
+    /**
+     * Global variables
+     */
     LEFT = false;
     RIGHT = false;
     UP = false;

@@ -10,6 +10,9 @@
 
 
 /* Standard styles */
+* {
+    box-sizing: border-box;
+}
 body {
     margin: 0;
     height: 100vh;
@@ -41,8 +44,8 @@ h1 {
 
 /* Styles for the welcome screen */
 #welcomeScreen img {
-    width: 1440px;
-    height: 810px;
+    max-width: 1440px;
+    max-height: 810px;
     cursor: pointer;
     border: 2px solid black;
 }
@@ -105,6 +108,10 @@ h1 {
         display: block;
         width: 100%;
     }
+    #welcomeScreen img {
+        display: block;
+        max-width: 100vw;
+    }
 }
 
 @media only screen and (max-height: 810px) {
@@ -114,5 +121,8 @@ h1 {
     }
     h1 {
         display: none;
+    }
+    #welcomeScreen img {
+        height: 100vh;
     }
 }

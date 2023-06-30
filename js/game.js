@@ -43,7 +43,6 @@ function hideInformation() {
 
 function restartGame() {
     location.reload();
-    hideWelcome();
 }
 
 

@@ -57,34 +57,70 @@ class StatusBar extends DrawableObject {
         super();
         switch (type) {
             case 'health':
-                this.loadImage(this.IMAGES_HEALTH[0]);
-                this.loadImages(this.IMAGES_HEALTH);
-                this.posY = 10;
-                this.setPercentage('health', 100);
+                this.loadHealthSBImages();
                 break;
             case 'bottles':
-                this.loadImage(this.IMAGES_BOTTLES[0]);
-                this.loadImages(this.IMAGES_BOTTLES);
-                this.posY = 90;
-                this.setPercentage('bottles', 0);
+                this.loadBottleSBImages();
                 break;
             case 'coins':
-                this.loadImage(this.IMAGES_COINS[0]);
-                this.loadImages(this.IMAGES_COINS);
-                this.posY = 170;
-                this.setPercentage('coins', 0);
+                this.loadCoinSBImages();
                 break;
             case 'boss':
-                this.loadImage(this.IMAGES_BOSS[0]);
-                this.loadImages(this.IMAGES_BOSS);
-                this.posY = 10;
-                this.posX = 1100;
-                this.setPercentage('boss', 100);
+                this.loadBossSBImages();
             default:
                 break;
         }
     }
 
+
+    /**
+     * Loads the images for the health status bar.
+     * Sets also the vertical position of this status bar and the start percentage.
+     */
+    loadHealthSBImages() {
+        this.loadImage(this.IMAGES_HEALTH[0]);
+        this.loadImages(this.IMAGES_HEALTH);
+        this.posY = 10;
+        this.setPercentage('health', 100);
+    }
+
+
+    /**
+     * Loads the images for the bottle status bar.
+     * Sets also the vertical position of this status bar and the start percentage.
+     */
+    loadBottleSBImages() {
+        this.loadImage(this.IMAGES_BOTTLES[0]);
+        this.loadImages(this.IMAGES_BOTTLES);
+        this.posY = 90;
+        this.setPercentage('bottles', 0);
+    }
+
+
+    /**
+     * Loads the images for the coin status bar.
+     * Sets also the vertical position of this status bar and the start percentage.
+     */
+    loadCoinSBImages() {
+        this.loadImage(this.IMAGES_COINS[0]);
+        this.loadImages(this.IMAGES_COINS);
+        this.posY = 170;
+        this.setPercentage('coins', 0);
+    }
+
+
+    /**
+     * Loads the images for the boss status bar.
+     * Sets also the vertical position of this status bar and the start percentage.
+     * Additionally sets the horizontal position as this status bar is on the right side of the canvas.
+     */
+    loadBossSBImages() {
+        this.loadImage(this.IMAGES_BOSS[0]);
+        this.loadImages(this.IMAGES_BOSS);
+        this.posY = 10;
+        this.posX = 1100;
+        this.setPercentage('boss', 100);
+    }
 
     /**
      * Sets the percentage of the current object to the passed value and calls the function for setting the matching image.
@@ -117,8 +153,6 @@ class StatusBar extends DrawableObject {
                 break;
             case 'boss':
                 imagePath = this.IMAGES_BOSS[this.getImageIndex()];
-                break;
-            default:
                 break;
         }
         this.img.src = this.imageCache[imagePath];

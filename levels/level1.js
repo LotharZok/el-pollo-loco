@@ -1,7 +1,7 @@
 /**
  * Create Enemies:
- * One End Boss (first entry in array).
- * Twelve chicken (random normal and small);
+ * One End Boss (always first entry in array).
+ * Twelve chicken (random normal or small);
  */
 enemies = [
     new Endboss()

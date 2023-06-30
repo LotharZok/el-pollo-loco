@@ -43,7 +43,7 @@ class MovableObject extends DrawableObject {
      * @param {Array} imgArray - The Array that contains the image paths for this loop
      */
     playAnimationOnce(imgArray) {
-        let i = this.currentImage % imgArray.length;  // Aber currentImage läuft doch dann irgendwann über... auch wenn 9 Billionen lange dauert
+        let i = this.currentImage % imgArray.length;
         let path = imgArray[i];
         this.img.src = this.imageCache[path];
         this.currentImage++;

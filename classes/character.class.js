@@ -1,5 +1,8 @@
 class Character extends MovableObject {
-    // Größe ist immer gleich
+
+    /**
+     * Global variables
+     */
     width = 305;
     height = 600;
     offset = {
@@ -8,20 +11,21 @@ class Character extends MovableObject {
         right: 75,
         bottom: 30
     };
-    // Startposition ist immer gleich
     posX = 0;
     posY = 210;
-    speed = 20;
+    speed = 20;         // Horizontal speed of Pepe
+    idlingCounter = 0;  // Used to registrate how long Pepe is in idle mode
+    hasDied = false;    // Has Pepe died?
+    dyingCounter = 0;   // Counter to stop the dying scene (should run only once)
+    bottleCounter = 0;  // Needed for registering which bottles have been thrown
+    keyInterval;        // Gets the ID of the interval for checking the keyboard
+    characterInterval;  // Gets the ID of the interval for the animation of Pepe
+    world;              // mittels world.keyboard kann ich dann auf Tasten reagieren
+    
 
-    // Wie lange ist Pepe schon im Wartemodus?
-    idlingCounter = 0;
-    // Ist Pepe gestorben?
-    hasDied = false;
-    dyingCounter = 0;
-    bottleCounter = 0; // Needed for registering which bottles have been thrown
-    keyInterval;
-    characterInterval;
-
+    /**
+     * Arrays with the images for moving Pepe
+     */
     IMAGES_IDLING = [
         'img/2_character_pepe/1_idle/idle/I-1.png',
         'img/2_character_pepe/1_idle/idle/I-2.png',
@@ -80,13 +84,19 @@ class Character extends MovableObject {
         'img/2_character_pepe/5_dead/D-57.png'
     ];
 
-    world;  // mittels world.keyboard kann ich dann auf Tasten reagieren
 
+    /**
+     * Declaration of several sound used for Pepe
+     */
     walkingSound = new Audio('audio/walking.mp3');
     jumpingSound = new Audio('audio/jump.mp3');
     dyingSound = new Audio('audio/dying-pepe.mp3');
     hurtingSound = new Audio('audio/pepe-hurt.mp3');
 
+
+    /**
+     * Creates the character object (a.k.a. Pepe). Loads the image array and starts animation.
+     */
     constructor() {
         super().loadImage('img/2_character_pepe/1_idle/idle/I-1.png');  // starting image: Pepe is standing there
 
@@ -101,68 +111,197 @@ class Character extends MovableObject {
         this.animate();
     }
 
+
+    /**
+     * Animation of Pepe.
+     * Calls the checks for keystrokes (moveFunctionality).
+     * Calls the checks for character reactions (characterReactionFunctionality).
+     */
     animate() {
-
         this.keyInterval = setInterval(() => {
-            this.walkingSound.pause();
-            if (this.world.keyboard.RIGHT && this.posX < this.world.level.endX) {  // Walk right
-                this.moveRight();
-                this.otherDirection = false;
-                if (!this.isAboveGround())
-                    this.walkingSound.play();
-            };
-            if (this.world.keyboard.LEFT && this.posX > -2700) {  // Walk left
-                this.moveLeft();
-                this.otherDirection = true;
-                if (!this.isAboveGround())
-                    this.walkingSound.play();
-            };
-            if (this.world.keyboard.SPACE && !this.isAboveGround()) {  // Jump
-                this.jump();
-                this.jumpingSound.play();
-            };
-            if (this.world.keyboard.THROW) {
-                this.world.keyboard.THROW = false;
-                this.idlingCounter = 0;
-                if (this.world.level.throwableBottles > 0) {  // Only if there are bottles left to throw
-                    this.world.level.throwableBottles--;
-                    // Throw bottle
-                    this.world.throwableBottles[this.bottleCounter].throw(this.posX, this.posY, this.otherDirection);
-                    this.bottleCounter++;
-
-                    let newValue = this.world.statusBarBottles.percentage -= (100/this.world.level.bottles.length);
-                    this.world.statusBarBottles.setPercentage('bottles', newValue);
-                }
-            };
-            this.world.cameraX = -(this.posX) + 100;  // Bewegung der (Hintergrund)-Welt (Pepes Position bleibt dadurch auf dem Screen die gleiche).
+            this.moveFunctionality();
         }, 75);
 
         this.characterInterval = setInterval(() => {
-            if (this.isAboveGround()) {
-                this.playAnimation(this.IMAGES_JUMPING);  // show jumping animation
-                this.idlingCounter = 0;
-            } else if (this.isDead()) {
-                if (!this.hasDied) {  // show dying animation, but only once
-                    this.applyGravity();
-                    this.playAnimation(this.IMAGES_DYING);
-                    this.dyingSound.play();
-                    this.dyingCounter++;
-                    if (this.dyingCounter >= 6) this.hasDied = true;
-                } else {
-                    clearInterval(this.keyInterval);
-                    clearInterval(this.characterInterval);
-                }
-            } else if (this.isHurt()) {
-                this.playAnimation(this.IMAGES_HURTING); // show hurting animation
-                this.hurtingSound.play();
-            } else if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
-                this.playAnimation(this.IMAGES_WALKING); // show walking animation
-                this.idlingCounter = 0;
-            } else {
-                this.idlingCounter++;  // show idling or sleeping animation
-                this.idlingCounter <= 120 ? this.playAnimation(this.IMAGES_IDLING) : this.playAnimation(this.IMAGES_SLEEPING);
-            }
+            this.characterReactionFunctionality();
         }, 125)
     }
 
+
+    /**
+     * Controls the move functionality.
+     * Checks for keystrokes and calls corresponding functions.
+     */
+    moveFunctionality() {
+        this.walkingSound.pause();
+        if (this.shallRunToRight()) this.moveRight();
+        if (this.shallRunToLeft()) this.moveLeft();
+        if (this.shallJump()) this.jump();
+        if (this.shallThrow()) this.throwBottle();
+        this.world.cameraX = -(this.posX) + 100;  // Movement of the (background) world (Pepe's position remains the same on the screen).
+    }
+
+
+    /**
+     * Checks if Pepe should walk to the right.
+     * 
+     * @returns True or False
+     */
+    shallRunToRight() {
+        return this.world.keyboard.RIGHT && this.posX < this.world.level.endX;
+    }
+
+
+    /**
+     * Starts Pepes walking to the right and starts also the walking sound.
+     */
+    moveRight() {
+        super.moveRight();
+        this.otherDirection = false;
+        if (!this.isAboveGround())
+            this.walkingSound.play();
+    }
+
+
+    /**
+     * Checks if Pepe should walk to the left.
+     * 
+     * @returns True or False
+     */
+    shallRunToLeft() {
+        return this.world.keyboard.LEFT && this.posX > -2700;
+    }
+
+
+    /**
+     * Starts Pepes walking to the left and starts also the walking sound.
+     */
+    moveLeft() {
+        super.moveLeft();
+        this.otherDirection = true;
+        if (!this.isAboveGround())
+            this.walkingSound.play();
+    }
+
+
+    /**
+     * Checks if Pepe should jump.
+     * 
+     * @returns True or False
+     */
+    shallJump() {
+        return this.world.keyboard.SPACE && !this.isAboveGround();
+    }
+
+
+    /**
+     * Starts Pepe jumping and starts also the jumping sound.
+     */
+    jump() {
+        super.jump();
+        this.jumpingSound.play();
+    }
+
+
+    /**
+     * Checks if Pepe should throw a bottle.
+     * 
+     * @returns True or False
+     */
+    shallThrow() {
+        return this.world.keyboard.THROW;
+    }
+
+
+    /**
+     * Starts Pepe throwing a bottle in the direction he is looking.
+     * Counts how many Pepe has already thrown. He is not allowed to throw more than he has collected.
+     * Set also the status bar of collected bottles.
+     */
+    throwBottle() {
+        this.world.keyboard.THROW = false;
+        this.idlingCounter = 0;
+        if (this.world.level.throwableBottles > 0) {  // Only if there are bottles left to throw
+            this.world.level.throwableBottles--;
+            // Throw bottle
+            this.world.throwableBottles[this.bottleCounter].throw(this.posX, this.posY, this.otherDirection);
+            this.bottleCounter++;
+            // Decrease bottle status bar
+            let newValue = this.world.statusBarBottles.percentage -= (100/this.world.level.bottles.length);
+            this.world.statusBarBottles.setPercentage('bottles', newValue);
+        }
+    }
+
+
+    /**
+     * Controls the reaction of Pepe according to the status of several variables.
+     * Calls according functions.
+     */
+    characterReactionFunctionality() {
+        if (this.isAboveGround()) {
+            this.animateJumping();
+        } else if (this.isDead()) {
+            this.animateDying();
+        } else if (this.isHurt()) {
+            this.animateHurting();
+        } else if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
+            this.animateWalking();
+        } else {
+            this.animateIdlingSleeping();
+        }
+    }
+
+
+    /**
+     * Starts the jumping animation.
+     */
+    animateJumping() {
+        this.playAnimation(this.IMAGES_JUMPING);
+        this.idlingCounter = 0;
+    }
+
+
+    /**
+     * Starts the dying animation. Plays an according sound.
+     * Afterwards stops some intervals.
+     */
+    animateDying() {
+        if (!this.hasDied) {  // show dying animation, but only once
+            this.applyGravity();
+            this.playAnimation(this.IMAGES_DYING);
+            this.dyingSound.play();
+            this.dyingCounter++;
+            if (this.dyingCounter >= 6) this.hasDied = true;
+        } else {
+            clearInterval(this.keyInterval);
+            clearInterval(this.characterInterval);
+        }
+    }
+
+
+    /**
+     * Starts the hurting animation. Plays an according sound.
+     */
+    animateHurting() {
+        this.playAnimation(this.IMAGES_HURTING); // show hurting animation
+        this.hurtingSound.play();
+    }
+
+
+    /**
+     * Starts the walking animation.
+     */
+    animateWalking() {
+        this.playAnimation(this.IMAGES_WALKING); // show walking animation
+        this.idlingCounter = 0;
+    }
+
+
+    /**
+     * Starts the idling animation. After around 15 seconds it starts the sleeping animation.
+     */
+    animateIdlingSleeping() {
+        this.idlingCounter++;  // show idling or sleeping animation
+        this.idlingCounter <= 120 ? this.playAnimation(this.IMAGES_IDLING) : this.playAnimation(this.IMAGES_SLEEPING);
+    }
 }
