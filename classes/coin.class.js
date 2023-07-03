@@ -1,6 +1,4 @@
 class Coin extends MovableObject {
-
-    
     /**
      * Global variable
      */
@@ -14,6 +12,7 @@ class Coin extends MovableObject {
     }                               // Offset values for a coin image
     yValues = [290, 420, 550, 680]; // Possible values for positioning on the Y-axis
     isCollected = false;            // Default value: On creation a coin is not yet collected
+    coinInterval;
 
 
     /**
@@ -48,8 +47,9 @@ class Coin extends MovableObject {
      * Starts the interval with the animation of the current object.
      */
     animate() {
-        setInterval(() => {
+        this.coinInterval = setInterval(() => {
             this.playAnimation(this.IMAGES_PULSATING);
-        }, 175)
+        }, 175);
+        intervalIDsArray.push(this.coinInterval);
     }
 }

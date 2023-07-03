@@ -19,6 +19,7 @@ class World {
     ];
     throwableBottles = [];
     character = new Character();
+    collisionsInterval;
 
 
     /**
@@ -73,9 +74,11 @@ class World {
     setStartingSounds() {
         this.backgroundSound.volume = 0.15;
         this.backgroundSound.loop = true;
-        this.backgroundSound.play();
+        if (!muteSounds) this.backgroundSound.play();
+        soundsArray.push(this.backgroundSound);
         this.cricketSound.loop = true;
-        this.cricketSound.play();
+        if (!muteSounds) this.cricketSound.play();
+        soundsArray.push(this.cricketSound);
     }
 
 
@@ -245,12 +248,13 @@ class World {
      * Runs the screen and checks for collisions.
      */
     runScreen() {
-        setInterval(() => {
+        this.collisionsInterval = setInterval(() => {
             this.checkCollisionPepeEnemy();
             this.checkCollisionPepeBottle();
             this.checkCollisionPepeCoin();
             this.checkCollisionBottleBoss();
         }, 200);
+        intervalIDsArray.push(this.collisionsInterval);
     }
 
 
@@ -278,7 +282,7 @@ class World {
      */
     collisionPepeHitsEnemy(enemy) {
         if (!enemy.hasDied) {
-            this.squishSound.play();
+            if (!muteSounds) this.squishSound.play();
             enemy.hasDied = true;
             enemy.speed = 0;
         }
@@ -306,7 +310,7 @@ class World {
             if (this.character.isColliding(bottle)) {
                 if (!bottle.isCollected) {
                     this.level.throwableBottles++;
-                    this.bottleCollectSound.play();
+                    if (!muteSounds) this.bottleCollectSound.play();
                     let newValue = this.statusBarBottles.percentage += (100/this.level.bottles.length);
                     this.statusBarBottles.setPercentage('bottles', newValue);
                     bottle.isCollected = true;
@@ -324,7 +328,7 @@ class World {
         this.level.coins.forEach((coin) => {
             if (this.character.isColliding(coin)) {
                 if (!coin.isCollected) {
-                    this.coinCollectSound.play();
+                    if (!muteSounds) this.coinCollectSound.play();
                     let newValue = this.statusBarCoins.percentage += (100/this.level.coins.length);
                     this.statusBarCoins.setPercentage('coins', newValue);
                     coin.isCollected = true;
@@ -347,7 +351,8 @@ class World {
                     this.statusBarBoss.setPercentage('boss', enemies[0].energy);
                     bottle.startSplashAnimation();
                     if (enemies[0].energy <= 0) {  // Check if endboss is dead
-                        this.endGame('won');
+                        setTimeout(() => this.endGame('won'), 500);
+                        // this.endGame('won');
                     }
                 }
             }
@@ -369,9 +374,7 @@ class World {
             this.lostImg.posX = this.character.posX - 100;
             this.lostImg.isVisible = true;
         }
-        this.level.enemies.forEach((enemy) => {
-            enemy.speed = 0;
-        });
+        clearAllIntervals();
         document.getElementById('infoClickMessage').classList.add('d-none');
         document.getElementById('restartClickMessage').classList.remove('d-none');
     }

@@ -14,6 +14,8 @@ class Chicken extends MovableObject {
     moveWalking = {};
     rndm = 0;
     hasDied = false;
+    moveInterval;
+    dyingInterval;
 
     
     /**
@@ -83,14 +85,16 @@ class Chicken extends MovableObject {
      * Animation of a chicken
      */
     animate() {
-        setInterval( () => {
+        this.moveInterval = setInterval( () => {
             this.moveLeft();
         }, 25);
+        intervalIDsArray.push(this.moveInterval);
 
-        setInterval(() => {
+        this.dyingInterval = setInterval(() => {
             (this.hasDied) ? 
                 (this.rndm == 0) ? this.playAnimation(this.IMAGES_DEAD) : this.playAnimation(this.IMAGES_DEAD_SMALL) :
                 (this.rndm == 0) ? this.playAnimation(this.IMAGES_WALKING) : this.playAnimation(this.IMAGES_WALKING_SMALL);
-        }, 175)
+        }, 175);
+        intervalIDsArray.push(this.dyingInterval);
     }
 }

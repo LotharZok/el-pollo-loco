@@ -12,7 +12,10 @@ let welcomeSound = new Audio('audio/start-screen-sound.mp3');
  */
 function welcomeToGame() {
     welcomeSound.loop = true;
-    welcomeSound.play();
+    (muteSounds) ? welcomeSound.pause() : welcomeSound.play();
+    soundsArray.push(welcomeSound);
+    // welcomeSound.play();
+
     this.bindBtnPressEvents()
 }
 

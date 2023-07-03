@@ -121,10 +121,12 @@ class Character extends MovableObject {
         this.keyInterval = setInterval(() => {
             this.moveFunctionality();
         }, 75);
+        intervalIDsArray.push(this.keyInterval);
 
         this.characterInterval = setInterval(() => {
             this.characterReactionFunctionality();
         }, 125)
+        intervalIDsArray.push(this.characterInterval);
     }
 
 
@@ -159,7 +161,7 @@ class Character extends MovableObject {
         super.moveRight();
         this.otherDirection = false;
         if (!this.isAboveGround())
-            this.walkingSound.play();
+            if (!muteSounds) this.walkingSound.play();
     }
 
 
@@ -180,7 +182,7 @@ class Character extends MovableObject {
         super.moveLeft();
         this.otherDirection = true;
         if (!this.isAboveGround())
-            this.walkingSound.play();
+            if (!muteSounds) this.walkingSound.play();
     }
 
 
@@ -199,7 +201,7 @@ class Character extends MovableObject {
      */
     jump() {
         super.jump();
-        this.jumpingSound.play();
+        if (!muteSounds) this.jumpingSound.play();
     }
 
 
@@ -269,12 +271,13 @@ class Character extends MovableObject {
         if (!this.hasDied) {  // show dying animation, but only once
             this.applyGravity();
             this.playAnimation(this.IMAGES_DYING);
-            this.dyingSound.play();
+            if (!muteSounds) this.dyingSound.play();
             this.dyingCounter++;
             if (this.dyingCounter >= 6) this.hasDied = true;
         } else {
-            clearInterval(this.keyInterval);
-            clearInterval(this.characterInterval);
+            // clearInterval(this.keyInterval);
+            // clearInterval(this.characterInterval);
+            clearAllIntervals();
         }
     }
 
@@ -284,7 +287,7 @@ class Character extends MovableObject {
      */
     animateHurting() {
         this.playAnimation(this.IMAGES_HURTING); // show hurting animation
-        this.hurtingSound.play();
+        if (!muteSounds) this.hurtingSound.play();
     }
 
 

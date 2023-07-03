@@ -82,7 +82,7 @@ class Bottle extends MovableObject {
      * @param {Boolean} otherDirection - Defines in which direction the bottle will be thrown
      */
     throw(x, y, otherDirection) {
-        this.throwingSound.play();
+        if (!muteSounds) this.throwingSound.play();
         super.loadImage(this.bottleRotationImages[0]);
         super.loadImages(this.bottleRotationImages);
         
@@ -105,7 +105,7 @@ class Bottle extends MovableObject {
         this.loadImages(this.bottleSplashImages);
         this.splashInterval = setInterval(() => {
             this.playAnimation(this.bottleSplashImages);
-            this.bottleBreakSound.play();
+            if (!muteSounds) this.bottleBreakSound.play();
             this.splashCounter++;
             if (this.splashCounter >= 6) {
                 clearInterval(this.splashInterval);

@@ -11,10 +11,11 @@ class Endboss extends MovableObject {
         bottom: 50
     }; 
     moveWalking = {};
+    bossInterval;
+    moveInterval;
 
     isAlerted = false;
     isAttacking = false;
-    bossInterval;
     dyingCounter = 0;
     hasDied = false;
 
@@ -103,9 +104,10 @@ class Endboss extends MovableObject {
      * Animation of the endboss. Reacts to the current status of the object.
      */
     animate() {
-        setInterval( () => {
+        this.moveInterval = setInterval( () => {
             this.moveLeft();
         }, 25);
+        intervalIDsArray.push(this.moveInterval);
 
         this.bossInterval = setInterval(() => {
             if (this.isDead()) {
@@ -116,7 +118,8 @@ class Endboss extends MovableObject {
                 this.playAnimation(this.currentMovingArray);
                 if (this.energy < 100) this.speed = 0.15 + Math.random() * 0.35;
             }
-        }, 175)
+        }, 175);
+        intervalIDsArray.push(this.bossInterval);
     }
 
 
@@ -128,7 +131,7 @@ class Endboss extends MovableObject {
         if (!this.hasPlayedSound) {
             this.hastaSound.volume = 0.5;
             this.hastaSound.loop = false;
-            this.hastaSound.play();
+            if (!muteSounds) this.hastaSound.play();
             this.hasPlayedSound = true;
         };
     }
@@ -140,7 +143,7 @@ class Endboss extends MovableObject {
     hurtFunctionality() {
         this.playAnimation(this.IMAGES_HURT);
         this.hurtSound.loop = false;
-        this.hurtSound.play();
+        if (!muteSounds) this.hurtSound.play();
         // Endboss now attacks
         this.currentMovingArray = this.IMAGES_WALKING;
     }

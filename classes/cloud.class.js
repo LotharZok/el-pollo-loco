@@ -5,6 +5,7 @@ class Cloud extends MovableObject {
     width = 1440;
     height = 405;
     speed = 0.10;
+    cloudInterval;
 
 
     /**
@@ -24,6 +25,7 @@ class Cloud extends MovableObject {
      * Animates this object.
      */
     animate() {
-        setInterval( () => {this.posX -= this.speed}, 25);
+        this.cloudInterval = setInterval( () => {this.posX -= this.speed}, 25);
+        intervalIDsArray.push(this.cloudInterval);
     }
 }

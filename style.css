@@ -39,6 +39,9 @@ h1 {
     background-color: black;
     border: 2px solid black;
 }
+#mute {
+    cursor: pointer;
+}
 
 
 /* Styles for the welcome screen */
@@ -107,7 +110,6 @@ h1 {
     width: 100%;
     max-width: 1440px;
     margin-top: -50px;
-    /* display: flex; */
     justify-content: space-between;
 }
 #mobileButtonsLeftSide {
