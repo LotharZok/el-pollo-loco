@@ -68,20 +68,27 @@ class Endboss extends MovableObject {
     ];
     currentMovingArray = [];
 
+
+    /**
+     * Creates the endboss object (the large chicken). Calls the loading of the image arrays and starts animation.
+     */
     constructor() {
         super();
         
         this.loadImageArrays();
         this.currentMovingArray = this.IMAGES_ALERT;
         
-        // this.speed = 0.05 + Math.random() * 0.15;  // Zufällige Geschwindigkeit zwischen 0.05 und 0.2 (er soll ja mehr oder weniger am Ort bleiben)
-        this.speed = 0; // Soll erstmal am gleichen Platz bleiben
+        this.speed = 0; //0.05; // Stays on place, attacks when hurt
         this.posX = 3000;
         this.posY = 200;
 
         this.animate();
     }
 
+
+    /**
+     * Loads the image arrays for the several possible movements of this object.
+     */
     loadImageArrays() {
         this.loadImage(this.IMAGES_ALERT[0]);
         this.loadImages(this.IMAGES_WALKING);
@@ -91,26 +98,50 @@ class Endboss extends MovableObject {
         this.loadImages(this.IMAGES_DYING);
     }
 
+
+    /**
+     * Animation of the endboss. Reacts to the current status of the object.
+     */
     animate() {
-        this.moveLeft();
+        setInterval( () => {
+            this.moveLeft();
+        }, 25);
 
         this.bossInterval = setInterval(() => {
             if (this.isDead()) {
-                this.playAnimationOnce(this.IMAGES_DYING);
-                if (!this.hasPlayedSound) {
-                    this.hastaSound.volume = 0.5;
-                    this.hastaSound.loop = false;
-                    this.hastaSound.play();
-                    this.hasPlayedSound = true;
-                };
+                this.deadFunctionality();
             } else if (this.isHurt()) {
-                this.playAnimation(this.IMAGES_HURT);
-                this.hurtSound.loop = false;
-                this.hurtSound.play();
+                this.hurtFunctionality();
             } else {
                 this.playAnimation(this.currentMovingArray);
+                if (this.energy < 100) this.speed = 0.15 + Math.random() * 0.35;
             }
         }, 175)
     }
 
+
+    /**
+     * Starts the dying animation and plays according sounds.
+     */
+    deadFunctionality() {
+        this.playAnimationOnce(this.IMAGES_DYING);
+        if (!this.hasPlayedSound) {
+            this.hastaSound.volume = 0.5;
+            this.hastaSound.loop = false;
+            this.hastaSound.play();
+            this.hasPlayedSound = true;
+        };
+    }
+
+
+    /**
+     * Starts the hurt animation and plays the according sound
+     */
+    hurtFunctionality() {
+        this.playAnimation(this.IMAGES_HURT);
+        this.hurtSound.loop = false;
+        this.hurtSound.play();
+        // Endboss now attacks
+        this.currentMovingArray = this.IMAGES_WALKING;
+    }
 }

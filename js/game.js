@@ -163,6 +163,9 @@ window.addEventListener('keyup', (e) => {
 });
 
 
+/**
+ * Registration of an event listener (touchstart / touchend) to react on touching buttons on a mobile device.
+ */
 function bindBtnPressEvents() {
     document.getElementById('btnLeft').addEventListener('touchstart', (e) => {
         e.preventDefault();

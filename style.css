@@ -103,10 +103,11 @@ h1 {
 
 /* Styles for mobile buttons */
 #mobileButtons {
+    display: none;
     width: 100%;
     max-width: 1440px;
     margin-top: -50px;
-    display: flex;
+    /* display: flex; */
     justify-content: space-between;
 }
 #mobileButtonsLeftSide {
@@ -147,6 +148,9 @@ h1 {
     }
     body {
         height: auto;
+    }
+    #mobileButtons {
+        display: flex;
     }
 }
 

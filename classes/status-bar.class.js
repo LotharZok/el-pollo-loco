@@ -1,6 +1,5 @@
 class StatusBar extends DrawableObject {
 
-
     /**
      * Image arrays for specified movements (status) of the status bars
      */

@@ -38,7 +38,7 @@ backgrounds = [
 
 
 /** 
- * Create 15 Coins
+ * Create 15 Coins to collect
  */
 coins = [];
 for (let i = 0; i < 15; i++) {
@@ -47,7 +47,7 @@ for (let i = 0; i < 15; i++) {
 
 
 /**
- * Create 15 bottles
+ * Create 15 bottles to collect
  */
 bottles = [];
 for (let i = 0; i < 15; i++) {
@@ -58,7 +58,7 @@ for (let i = 0; i < 15; i++) {
 /**
  * If a bottle is collected, this variable is set + 1.
  * That way I know how many bottles I have to throw.
- * When throwing a bottle, this array will be minimized by 1.
+ * When throwing a bottle, this array will be reduced by 1.
  */
 throwableBottles = 0;
 

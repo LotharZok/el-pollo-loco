@@ -95,7 +95,7 @@ class Character extends MovableObject {
 
 
     /**
-     * Creates the character object (a.k.a. Pepe). Loads the image array and starts animation.
+     * Creates the character object (a.k.a. Pepe). Loads the image arrays and starts animation.
      */
     constructor() {
         super().loadImage('img/2_character_pepe/1_idle/idle/I-1.png');  // starting image: Pepe is standing there
