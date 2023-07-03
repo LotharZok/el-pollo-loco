@@ -10,7 +10,6 @@ let muteSounds = false;
  * Mutes all sound, when started. De-mutes all sound on a second click.
  */
 function muteAllSounds() {
-    console.log('muteAllSounds gestartet');
     if (muteSounds) {
         muteSounds = false;
         soundsArray.forEach(s => {

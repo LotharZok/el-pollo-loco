@@ -37,10 +37,11 @@
     <div id="welcomeScreen">
         <img src="./img/9_intro_outro_screens/start/startscreen_2.png" alt="Welcome" onclick="hideWelcome()">
     </div>
-    <div id="clickMessage" onclick="hideWelcome()">
-        Click on picture to start game
+    <div id="clickMessage">
+        <div onclick="hideWelcome()">Click on picture to start game</div>
+        <div onclick="showInformation()">Click here for information how to play</div>
+        <div onclick="muteAllSounds()"><img src="./img/volume-xmark-solid.svg" alt=""> Sound on-off</div>
     </div>
-    <div id="mute" onclick="muteAllSounds()">Ruhe jetzt!</div>
 
     <canvas id="canvas" width="1440px" height="810px" class="d-none"></canvas>
 
