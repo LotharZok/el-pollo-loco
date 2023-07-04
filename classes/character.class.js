@@ -275,8 +275,6 @@ class Character extends MovableObject {
             this.dyingCounter++;
             if (this.dyingCounter >= 6) this.hasDied = true;
         } else {
-            // clearInterval(this.keyInterval);
-            // clearInterval(this.characterInterval);
             clearAllIntervals();
         }
     }

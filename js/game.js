@@ -37,6 +37,7 @@ function hideWelcome() {
  * Initialisation of the game. Called when welcome Screen is closed.
  */
 function init() {
+    initLevel();
     canvas = document.getElementById('canvas');
     world = new World(canvas, keyboard);
 }

@@ -250,6 +250,7 @@ class World {
     runScreen() {
         this.collisionsInterval = setInterval(() => {
             this.checkCollisionPepeEnemy();
+            this.checkPepeNearsEndboss();
             this.checkCollisionPepeBottle();
             this.checkCollisionPepeCoin();
             this.checkCollisionBottleBoss();
@@ -261,7 +262,8 @@ class World {
     /**
      * Checks for a collision of Pepe and an enemy.
      * Calls subfunctions if necessary.
-     * Information: Check on speedY < 0 means, the character is falling after the jump.
+     * Information: Check on speedY < 0 means, the character is in the fall after the jump.
+     *              This way you can only jump on a chicken, but not against one.
      */
     checkCollisionPepeEnemy() {
         this.level.enemies.forEach((enemy) => {
@@ -273,6 +275,16 @@ class World {
                 }
             }
         });
+    }
+
+
+    /**
+     * Checks if the distance between Pepe and the endboss has fallen below a certain value.
+     */
+    checkPepeNearsEndboss() {
+        if (this.character.isNearing(enemies[0], 700)) {
+            enemies[0].tooNearFunctionality();
+        }
     }
 
 
@@ -369,9 +381,11 @@ class World {
      */
     endGame(wonOrLost) {
         if (wonOrLost == 'won') {
+            // console.log('won');
             this.wonImg.posX = this.character.posX - 100;
             this.wonImg.isVisible = true;
         } else {
+            // console.log('lost');
             this.lostImg.posX = this.character.posX - 100;
             this.lostImg.isVisible = true;
         }

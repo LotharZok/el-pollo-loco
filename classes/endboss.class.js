@@ -16,6 +16,7 @@ class Endboss extends MovableObject {
 
     isAlerted = false;
     isAttacking = false;
+    isTooNear = false;
     dyingCounter = 0;
     hasDied = false;
 
@@ -116,7 +117,7 @@ class Endboss extends MovableObject {
                 this.hurtFunctionality();
             } else {
                 this.playAnimation(this.currentMovingArray);
-                if (this.energy < 100) this.speed = 0.15 + Math.random() * 0.35;
+                if (this.energy < 100 || this.isTooNear) this.speed = 0.15 + Math.random() * 0.35;
             }
         }, 175);
         intervalIDsArray.push(this.bossInterval);
@@ -138,7 +139,7 @@ class Endboss extends MovableObject {
 
 
     /**
-     * Starts the hurt animation and plays the according sound
+     * Starts the hurt animation and plays the according sound.
      */
     hurtFunctionality() {
         this.playAnimation(this.IMAGES_HURT);
@@ -146,5 +147,14 @@ class Endboss extends MovableObject {
         if (!muteSounds) this.hurtSound.play();
         // Endboss now attacks
         this.currentMovingArray = this.IMAGES_WALKING;
+    }
+
+
+    /**
+     * Starts the walking animation if Pepe has come too near.
+     */
+    tooNearFunctionality() {
+        this.currentMovingArray = this.IMAGES_WALKING;
+        this.isTooNear = true;
     }
 }

@@ -1,4 +1,18 @@
 /**
+ * Global variable
+ */
+let level1;
+
+
+/**
+ * Creates a new Level. Called when the game is started by clicking on the welcome screen.
+ */
+function initLevel() {
+    level1 = new Level(enemies, clouds, backgrounds, coins, bottles);
+}
+
+
+/**
  * Create Enemies:
  * One End Boss (always first entry in array).
  * Twelve chicken (random normal or small);
@@ -61,9 +75,3 @@ for (let i = 0; i < 15; i++) {
  * When throwing a bottle, this array will be reduced by 1.
  */
 throwableBottles = 0;
-
-
-/**
- * Create a new Level
- */
-const level1 = new Level(enemies, clouds, backgrounds, coins, bottles);

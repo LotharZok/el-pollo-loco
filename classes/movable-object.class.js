@@ -70,6 +70,21 @@ class MovableObject extends DrawableObject {
 
 
     /**
+     * Checks whether a distance falls below a passed value.
+     * 
+     * @param {Object} movObj - An Object of a class that extends the class MovableObject
+     * @param {Integer} distance - The distance that will be checked
+     * @returns True or False - The distance has fallen below the passed value or not
+     */
+    isNearing(movObj, distance) {
+        // console.log((movObj.posX + movObj.offset.left) - (this.posX + this.width - this.offset.right));
+        return (
+            (movObj.posX + movObj.offset.left) - (this.posX + this.width - this.offset.right) < distance
+        );
+    }
+
+
+    /**
      * Deducts the given amount from the energy of the current object.
      * 
      * @param {Integer} amount - The amount that will be deducted from the energy of the object.
