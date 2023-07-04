@@ -117,7 +117,7 @@ class Endboss extends MovableObject {
                 this.hurtFunctionality();
             } else {
                 this.playAnimation(this.currentMovingArray);
-                if (this.energy < 100 || this.isTooNear) this.speed = 0.15 + Math.random() * 0.35;
+                if (this.energy < 100 || this.isTooNear) this.speed = 0.15 + Math.random() * 0.5;
             }
         }, 175);
         intervalIDsArray.push(this.bossInterval);
