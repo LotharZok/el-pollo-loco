@@ -253,7 +253,7 @@ class World {
             this.checkCollisionPepeBottle();
             this.checkCollisionPepeCoin();
             this.checkCollisionBottleBoss();
-        }, 200);
+        }, 50);
         intervalIDsArray.push(this.collisionsInterval);
     }
 
@@ -261,11 +261,12 @@ class World {
     /**
      * Checks for a collision of Pepe and an enemy.
      * Calls subfunctions if necessary.
+     * Information: Check on speedY < 0 means, the character is falling after the jump.
      */
     checkCollisionPepeEnemy() {
         this.level.enemies.forEach((enemy) => {
             if (this.character.isColliding(enemy)) {
-                if (this.character.isAboveGround()) {
+                if (this.character.isAboveGround() && this.character.speedY < 0) {
                     this.collisionPepeHitsEnemy(enemy);
                 } else if (!enemy.hasDied) {
                     this.collisionEnemyHitsPepe();
