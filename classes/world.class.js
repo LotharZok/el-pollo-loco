@@ -366,7 +366,7 @@ class World {
                     this.statusBarBoss.setPercentage('boss', enemies[0].energy);
                     bottle.startSplashAnimation();
                     if (enemies[0].energy <= 0) {  // Check if endboss is dead
-                        setTimeout(() => this.endGame('won'), 500);
+                        setTimeout(() => this.endGame('won'), 500);  // half a second of waiting so the animation can run
                         // this.endGame('won');
                     }
                 }
