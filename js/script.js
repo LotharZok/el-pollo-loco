@@ -7,7 +7,7 @@ let muteSounds = false;
 
 
 /**
- * Mutes all sound, when started. De-mutes all sound on a second click.
+ * Mutes all sound, when started. De-mutes all sounds on a second click.
  */
 function muteAllSounds() {
     if (muteSounds) {

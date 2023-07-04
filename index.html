@@ -37,26 +37,29 @@
     <div id="welcomeScreen">
         <img src="./img/9_intro_outro_screens/start/startscreen_2.png" alt="Welcome" onclick="hideWelcome()">
     </div>
+    
+    <canvas id="canvas" width="1440px" height="810px" class="d-none"></canvas>
+
     <div id="clickMessage">
-        <div onclick="hideWelcome()">Click on picture to start game</div>
-        <div onclick="showInformation()">Click here for information how to play</div>
+        <div onclick="hideWelcome()" id="startMessage">Click on picture to start game</div>
+        <div onclick="restartGame()" id="restartMessage" class="d-none">Click here to restart game</div>
+        <div onclick="showInformation()" id="infoMessage">Click here for information how to play</div>
         <div onclick="muteAllSounds()"><img src="./img/volume-xmark-solid.svg" alt=""> Sound on-off</div>
     </div>
 
-    <canvas id="canvas" width="1440px" height="810px" class="d-none"></canvas>
-
-    <div id="infoClickMessage" class="d-none" onclick="showInformation()">
-        Click here for information
-    </div>
-
-    <div id="restartClickMessage" class="d-none" onclick="restartGame()">
-        Click here to restart game
+    <div id="turnMessage">
+        <img src="./img/turn-mobile.png"> Turn device to play.
     </div>
 
     <div id="mobileButtons" class="mobile">
         <div id="mobileButtonsLeftSide">
             <img src="./img/btn-left.png" alt="move left" id="btnLeft" class="mobileBtn">
             <img src="./img/btn-right.png" alt="move right" id="btnRight" class="mobileBtn">
+        </div>
+        <div id="mobileButtonsCenter">
+            <img src="./img/btn-restart.png" alt="restart" id="btnRestart" class="mobileBtn">
+            <img src="./img/btn-info.png" alt="info" id="btnInfo" class="mobileBtn">
+            <img src="./img/btn-mute.png" alt="mute" id="btnMute" class="mobileBtn">
         </div>
         <div id="mobileButtonsRightSide">
             <img src="./img/btn-up.png" alt="jump" id="btnJump" class="mobileBtn">

@@ -374,8 +374,9 @@ class World {
             this.lostImg.posX = this.character.posX - 100;
             this.lostImg.isVisible = true;
         }
+
+        document.getElementById('infoMessage').classList.add('d-none');
+        document.getElementById('restartMessage').classList.remove('d-none');
         clearAllIntervals();
-        document.getElementById('infoClickMessage').classList.add('d-none');
-        document.getElementById('restartClickMessage').classList.remove('d-none');
     }
 }

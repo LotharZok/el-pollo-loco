@@ -26,10 +26,9 @@ function welcomeToGame() {
 function hideWelcome() {
     welcomeSound.pause();
     document.getElementById('canvas').classList.remove('d-none');
-    document.getElementById('infoClickMessage').classList.remove('d-none');
     document.getElementById('welcomeScreen').classList.add('d-none');
-    document.getElementById('clickMessage').classList.add('d-none');
-    document.getElementById('restartClickMessage').classList.add('d-none');
+    document.getElementById('startMessage').classList.add('d-none');
+    // document.getElementById('restartClickMessage').classList.add('d-none');
     init();
 }
 
@@ -205,4 +204,20 @@ function bindBtnPressEvents() {
         e.preventDefault();
         keyboard.THROW = false;
     });
+
+    document.getElementById('btnRestart').addEventListener('touchstart', (e) => {
+        e.preventDefault();
+        restartGame();
+    });
+
+    document.getElementById('btnInfo').addEventListener('touchstart', (e) => {
+        e.preventDefault();
+        showInformation();
+    });
+
+    document.getElementById('btnMute').addEventListener('touchstart', (e) => {
+        e.preventDefault();
+        muteAllSounds();
+    });
+
 }
