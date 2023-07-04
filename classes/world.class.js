@@ -213,6 +213,7 @@ class World {
             if (movObj.isVisible) movObj.draw(this.ctx);
         } else {
             movObj.draw(this.ctx);
+            // movObj.drawFrame(this.ctx);  // Draws a frame around certain object. Needed for development.
         }
 
         if (movObj.otherDirection)  // Dreht die Spiegelung wieder um. Grund: Wir wollen ausschließlich das aktuelle Objekt spiegeln.
@@ -269,7 +270,8 @@ class World {
         this.level.enemies.forEach((enemy) => {
             if (this.character.isColliding(enemy)) {
                 if (this.character.isAboveGround() && this.character.speedY < 0) {
-                    this.collisionPepeHitsEnemy(enemy);
+                    // Pepe may only jump onto chicken, not the endboss
+                    (enemy instanceof Endboss) ? this.collisionEnemyHitsPepe() : this.collisionPepeHitsEnemy(enemy);
                 } else if (!enemy.hasDied) {
                     this.collisionEnemyHitsPepe();
                 }

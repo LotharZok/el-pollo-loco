@@ -77,7 +77,6 @@ class MovableObject extends DrawableObject {
      * @returns True or False - The distance has fallen below the passed value or not
      */
     isNearing(movObj, distance) {
-        // console.log((movObj.posX + movObj.offset.left) - (this.posX + this.width - this.offset.right));
         return (
             (movObj.posX + movObj.offset.left) - (this.posX + this.width - this.offset.right) < distance
         );
