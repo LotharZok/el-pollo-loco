@@ -26,6 +26,7 @@ class Endboss extends MovableObject {
      */
     hastaSound = new Audio('audio/hasta-la-vista.mp3');
     hurtSound = new Audio('audio/endboss-hurt.mp3');
+    attackSound = new Audio('audio/endboss-attack.mp3');
     hasPlayedSound = false;
 
 
@@ -128,6 +129,8 @@ class Endboss extends MovableObject {
      * Starts the dying animation and plays according sounds.
      */
     deadFunctionality() {
+        this.attackSound.pause();
+        this.attackSound.currentTime = 0; // Stop sound of endboss attacking
         this.playAnimationOnce(this.IMAGES_DYING);
         if (!this.hasPlayedSound) {
             this.hastaSound.volume = 0.5;
@@ -146,15 +149,19 @@ class Endboss extends MovableObject {
         this.hurtSound.loop = false;
         if (!muteSounds) this.hurtSound.play();
         // Endboss now attacks
-        this.currentMovingArray = this.IMAGES_WALKING;
+        this.currentMovingArray = this.IMAGES_ATTACKING;
     }
 
 
     /**
-     * Starts the walking animation if Pepe has come too near.
+     * Starts the walking animation if Pepe has come too near. 
+     * Will be registered only once.
      */
     tooNearFunctionality() {
-        this.currentMovingArray = this.IMAGES_WALKING;
-        this.isTooNear = true;
+        if (!this.isTooNear) {
+            this.currentMovingArray = this.IMAGES_ATTACKING;
+            if (!muteSounds) this.attackSound.play();
+            this.isTooNear = true;
+        }
     }
 }
