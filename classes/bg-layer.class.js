@@ -27,8 +27,8 @@ class BgLayer extends MovableObject {
                 super.loadImage('img/5_background/layers/2_second_layer/full.png');
                 break;
             case 3:
-                super.loadImage('img/5_background/layers/3_third_layer/full.png');
+                super.loadImage('img/5_background/layers/3_third_layer/full.png');4
                 break;
-        }
+        };
     }
 }

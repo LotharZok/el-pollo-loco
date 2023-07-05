@@ -116,14 +116,13 @@ class World {
      */
     draw() {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);  // Empties the canvas so that the old representation disappears when a movement is made
-        this.ctx.translate(this.cameraX, 0); // Movement of the background, that is, here, of the entire canvas.
-
         this.drawBackgroundLayers();
+
+        this.ctx.translate(this.cameraX, 0); // Movement of the background, that is, here, of the entire canvas.
         this.drawCollectableObjects();
         this.drawForegroundObjects();
         this.drawNonMovableObjects();
         this.drawEndGameImages();
-
         this.ctx.translate(-this.cameraX, 0); // Move the background back.
 
         // requestAnimationFrame -> wiederholt die aufgerufene Methode so häufig, wie es die Grafikkarte / der Computer zulässt.
@@ -138,8 +137,23 @@ class World {
     drawBackgroundLayers() {
         this.addObjArrayToCanvas(this.air);
         this.addObjArrayToCanvas(this.level.clouds);      // The clouds move separate from the moving of the character
-        this.addObjArrayToCanvas(this.level.backgrounds); // The terrain is moving according to the moving of the character
-        this.level.backgrounds.forEach(bg => bg.world = this);
+
+        // Background objects move at different speeds
+        this.ctx.translate(this.cameraX * 0.5, 0);
+        this.addObjArrayToCanvas(this.level.backgrounds3);
+        this.ctx.translate(-this.cameraX * 0.5, 0);
+
+        this.ctx.translate(this.cameraX * 0.25, 0);
+        this.addObjArrayToCanvas(this.level.backgrounds2);
+        this.ctx.translate(-this.cameraX * 0.25, 0);
+
+        this.ctx.translate(this.cameraX * 1, 0);
+        this.addObjArrayToCanvas(this.level.backgrounds1);
+        this.ctx.translate(-this.cameraX * 1, 0);
+
+        this.level.backgrounds1.forEach(bg => bg.world = this);
+        this.level.backgrounds2.forEach(bg => bg.world = this);
+        this.level.backgrounds3.forEach(bg => bg.world = this);
     }
 
 

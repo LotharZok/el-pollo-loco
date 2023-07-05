@@ -4,7 +4,9 @@
 let level1;
 let enemies = [];
 let clouds = [];
-let backgrounds = [];
+let backgrounds3 = [];
+let backgrounds2 = [];
+let backgrounds1 = [];
 let coins = [];
 let bottles = [];
 
@@ -23,10 +25,12 @@ throwableBottles = 0;
 function initLevel() {
     createEnemies();
     createClouds();
-    createBackgrounds();
+    createBackgrounds3();
+    createBackgrounds2();
+    createBackgrounds1();
     createCoins();
     createBottles();
-    level1 = new Level(enemies, clouds, backgrounds, coins, bottles);
+    level1 = new Level(enemies, clouds, backgrounds1, backgrounds2, backgrounds3, coins, bottles);
 }
 
 
@@ -56,21 +60,37 @@ function createClouds() {
 
 
 /**
- * Create Background
+ * Create background of layer 3 (the background layer)
  */
-function createBackgrounds() {
-    backgrounds = [
+function createBackgrounds3() {
+    backgrounds3 = [
         new BgLayer(3, -2880),
-        new BgLayer(2, -2880),
-        new BgLayer(1, -2880),
-
-        new BgLayer(3, 0),
-        new BgLayer(2, 0),
-        new BgLayer(1, 0),
-        
+        new BgLayer(3, 0),       
         new BgLayer(3, 2880),
+    ];
+}
+
+
+/**
+ * Create background of layer 2 (the middle layer)
+ */
+function createBackgrounds2() {
+    backgrounds2 = [
+        new BgLayer(2, -2880),
+        new BgLayer(2, 0),       
         new BgLayer(2, 2880),
-        new BgLayer(1, 2880)
+    ];
+}
+
+
+/**
+ * Create background of layer 1 (the foreground layer)
+ */
+function createBackgrounds1() {
+    backgrounds1 = [
+        new BgLayer(1, -2880),
+        new BgLayer(1, 0),       
+        new BgLayer(1, 2880),
     ];
 }
 
