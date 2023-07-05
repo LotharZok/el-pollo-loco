@@ -70,6 +70,7 @@ class World {
 
     /**
      * Starts the background sounds for the game.
+     * Currently two sounds are being played.
      */
     setStartingSounds() {
         this.backgroundSound.volume = 0.15;
@@ -180,7 +181,7 @@ class World {
 
 
     /**
-     * Adds the images for the end game messages to the canvas. They are not visible on the start.
+     * Adds the images for the end game messages to the canvas. They are not visible at the start.
      */
     drawEndGameImages() {
         this.addToCanvas(this.wonImg);
@@ -367,7 +368,6 @@ class World {
                     bottle.startSplashAnimation();
                     if (enemies[0].energy <= 0) {  // Check if endboss is dead
                         setTimeout(() => this.endGame('won'), 500);  // half a second of waiting so the animation can run
-                        // this.endGame('won');
                     }
                 }
             }
@@ -383,11 +383,9 @@ class World {
      */
     endGame(wonOrLost) {
         if (wonOrLost == 'won') {
-            // console.log('won');
             this.wonImg.posX = this.character.posX - 100;
             this.wonImg.isVisible = true;
         } else {
-            // console.log('lost');
             this.lostImg.posX = this.character.posX - 100;
             this.lostImg.isVisible = true;
         }
