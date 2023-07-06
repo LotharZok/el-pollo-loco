@@ -148,12 +148,6 @@ h1 {
 
 
 /* Styles for small screens */
-@media (orientation: portrait) {
-    #turnMessage {
-        margin-top: 8px;
-        display: block;
-    }
-}
 
 @media only screen and (max-width: 1440px) {
     canvas {
@@ -218,5 +212,19 @@ h1 {
     #infoClickMessage,
     #restartClickMessage {
         font-size: 12px;
+    }
+}
+
+@media (orientation: portrait) {
+    #turnMessage {
+        font-size: 25px;
+        margin-top: 80px;
+        display: block;
+    }
+    #welcomeScreen {
+        display: none;
+    }
+    #mobileButtons {
+        display: none;
     }
 }

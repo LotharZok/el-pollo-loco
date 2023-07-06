@@ -327,7 +327,10 @@ class World {
 
         this.statusBarHealth.setPercentage('health', this.character.energy);
         if (this.character.energy <= 0) {  // Check if character is dead
-            this.endGame('lost');
+            this.character.animateDying();
+            setTimeout(() => {  // Wait a moment so the dying-animation for Pepe can run
+                this.endGame('lost');
+            }, 500);
         } else {
             if (enemy instanceof Endboss) {  // Endboss pushes Pepe back
                 this.character.pushBack();
@@ -401,7 +404,6 @@ class World {
      * @param {String} - 'won' or 'lost', states whether Pepe has won or lost the game
      */
     endGame(wonOrLost) {
-        console.log('endGame:', wonOrLost);
         if (wonOrLost == 'won') {
             this.wonImg.posX = this.character.posX - 100;
             this.wonImg.isVisible = true;
