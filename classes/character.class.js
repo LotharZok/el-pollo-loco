@@ -13,6 +13,7 @@ class Character extends MovableObject {
     };
     posX = 0;
     posY = 210;
+    pushX;
     speed = 20;         // Horizontal speed of Pepe
     idlingCounter = 0;  // Used to registrate how long Pepe is in idle mode
     hasDied = false;    // Has Pepe died?
@@ -202,6 +203,23 @@ class Character extends MovableObject {
     jump() {
         super.jump();
         if (!muteSounds) this.jumpingSound.play();
+    }
+
+
+    /**
+     * Pushes Pepe back 300 units. Happens when he runs into the endboss.
+     * This way he is not able to pass the endboss and get behing it.
+     */
+    pushBack() {
+        this.idlingCounter = 0;
+        this.pushX = this.posX - 300;
+        let tempInterval = setInterval(() => {
+            if (this.pushX < this.posX) {
+                this.posX -= 10;
+            } else {
+                clearInterval(tempInterval);
+            }
+        }, 50);
     }
 
 

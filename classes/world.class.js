@@ -286,9 +286,9 @@ class World {
             if (this.character.isColliding(enemy)) {
                 if (this.character.isAboveGround() && this.character.speedY < 0) {
                     // Pepe may only jump onto chicken, not the endboss
-                    (enemy instanceof Endboss) ? this.collisionEnemyHitsPepe() : this.collisionPepeHitsEnemy(enemy);
+                    (enemy instanceof Endboss) ? this.collisionEnemyHitsPepe(enemy) : this.collisionPepeHitsEnemy(enemy);
                 } else if (!enemy.hasDied) {
-                    this.collisionEnemyHitsPepe();
+                    this.collisionEnemyHitsPepe(enemy);
                 }
             }
         });
@@ -322,11 +322,16 @@ class World {
     /**
      * Called when an enemy runs into Pepe (or Pepe runs into an enemy). Handles reaction for this situation.
      */
-    collisionEnemyHitsPepe() {
+    collisionEnemyHitsPepe(enemy) {
         this.character.hit(2);
+
         this.statusBarHealth.setPercentage('health', this.character.energy);
-        if (this.character.hasDied) {  // Check if character is dead
+        if (this.character.energy <= 0) {  // Check if character is dead
             this.endGame('lost');
+        } else {
+            if (enemy instanceof Endboss) {  // Endboss pushes Pepe back
+                this.character.pushBack();
+            }    
         }
     }
 
@@ -396,6 +401,7 @@ class World {
      * @param {String} - 'won' or 'lost', states whether Pepe has won or lost the game
      */
     endGame(wonOrLost) {
+        console.log('endGame:', wonOrLost);
         if (wonOrLost == 'won') {
             this.wonImg.posX = this.character.posX - 100;
             this.wonImg.isVisible = true;
